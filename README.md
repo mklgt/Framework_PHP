@@ -1,4 +1,6 @@
-# Framework_PHP
-Una aplicación web en PHP-OO, con la arquitectura MVC  que incorpore un UML similar al de las presentaciones  del material Inicial que se irá aportando.
+# Proyecto_PHP
+-Ejemplo del proyecto
 
-La aplicación implementará el patrón de diseño DAO para el acceso a la Base de datos a través de la API PDO.
+En esta rama vamos a tener una copia del ejemplo dado en clase del proyecto.
+
+Prototipado en Figma: https://www.figma.com/file/0fuDNpTqh6MWYO8mvRPiTH/Prototipo-de-formulario?node-id=0%3A1
