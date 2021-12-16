@@ -1,7 +1,7 @@
 <?php
-      include "cabecera.php";
+      //include "cabecera.php";
       
-      echo "<div class='texto' />";
+      echo "<div class='resultado' />";
       echo $resultado;
       echo "</div>";
       

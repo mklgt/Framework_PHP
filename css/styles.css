@@ -22,6 +22,9 @@ header {
     padding: 5px;
     text-align: center;
 }
+h3 {
+    margin: 0;
+}
 
 /* El logo flota a la izquierda */
 
@@ -166,4 +169,25 @@ option {
 #usuario, #clave {
     width: 8em;
     float: left;
+}
+
+
+
+
+
+/*Estilos del proyecto*/
+
+.horario {
+    display: flex;
+    justify-content: space-around;
+}
+.horas {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/*Vista resultado*/
+.resultado {
+    background-color: rgb(97, 216, 97);
 }
