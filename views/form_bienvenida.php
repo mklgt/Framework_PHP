@@ -1,5 +1,5 @@
 <?php
-include "cabecera.php";
+include "header.php";
 ?>
 <form id="form" action="index.php" method="post">
 
@@ -12,6 +12,7 @@ include "cabecera.php";
             <br />
             <label>Clase
                 <select name="clase">
+                    <!-- <option value="" disabled selected>-- Selecciona una opción --</option> -->
                     <option value="a01">A01</option>
                     <option value="a02">A02</option>
                     <option value="a03">A03</option>
@@ -42,8 +43,9 @@ include "cabecera.php";
 
 <?php
 if (isset($resultado)) {
-    echo "";
-    include "pie.php";
+    echo "<div class='resultado'/>";
+    echo $resultado;
+    echo "</div>";
 }
-
+include "footer.php"
 ?>
