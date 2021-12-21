@@ -13,13 +13,16 @@ class Controlador
             // Resultado es la variable que guarda toda la información del formulario
             $resultado = "<h3>Datos:</h3> <br>";
 
+            // Error es la variable que muestra todos los errores del formulario
+            $error = null;
+
             // Campo de Usuario
             $usuario = $_POST['usuario'];
             $resultado .= "·Usuario: $usuario <br>";
 
             // Campo de Aula
-            $clase = $_POST['clase'];
-            $resultado .= "·Clase: " . strtoupper($clase) . " <br />";
+            $aula = $_POST['aula'];
+            $resultado .= "·Aula: " . strtoupper($aula) . " <br />";
 
             // Campo de Fecha
             $fecha = $_POST['fecha'];
@@ -46,5 +49,18 @@ class Controlador
     {
         //se muestra la vista del formulario (la plantilla form_bienvenida.php)   
         include 'views/form_bienvenida.php';
+    }
+
+    private function crearReglasDeValidacion()
+    {
+
+        //TODO: MODIFICAR ESTAS LINEAS
+        $reglasValidacion = array(
+            "usuario" => array("required" => true),
+            "clase" => array("required" => true),
+            "fecha" => array("required" => true, "min" => date("d M Y")),
+            "hora-desde" => array("required" => true, "min" => date("d M Y")),
+            "hora-hasta" => array("required" => true, "min" => array("hora-desde", "8:30"), "max" => "21:00")
+        );
     }
 }
