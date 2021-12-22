@@ -1,5 +1,5 @@
 <?php
-class Validator
+class ValidadorForm
 {
 
     private $errores = [];
@@ -12,14 +12,32 @@ class Validator
 
     public function validar($fuente, $reglasValidacion)
     {
+
+        foreach ($reglasValidacion as $campo => $valores) {
+            if (isset($fuente[$campo])) {
+                $campoAValidar = $fuente[$campo];
+                foreach ($valores as $regla => $valorRegla) {
+                    if ($regla == "min") {
+                        if (!($campoAValidar >= $valorRegla)) {
+                            $this->addError($campo, "tiene que tener más de 8 carácteres");
+                        }
+                    }
+                    
+                }
+            }else{
+                $this->addError($campo, "requerido");
+            }
+        }
         return null;
     }
 
-    public function addError($nombreCampo, $error){
-        return null;
+    public function addError($nombreCampo, $error)
+    {
+        $this->errores[] = "El valor " . $nombreCampo . " es " . $error;
     }
 
-    public function esValido(){
-        //return $valido;
+    public function esValido()
+    {
+        return $this->valido;
     }
 }

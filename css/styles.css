@@ -188,5 +188,9 @@ option {
 
 /*Vista resultado*/
 .resultado {
-    background-color: rgb(97, 216, 97);
+    background-color: rgb(165, 248, 165);
+}
+.error {
+    background-color: rgb(245, 97, 97);
+    margin-bottom: 15px;
 }
