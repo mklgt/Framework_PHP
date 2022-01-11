@@ -8,6 +8,9 @@ if (Input::siEnviado()) {
     $errores = $validador->getErrores();
     if (!empty($errores)) {
         echo "<div class='error'>";
+        foreach ($errores as $campo => $mensajeError) {
+            echo "<p>$mensajeError</p>\n";
+        }
         echo "</div>";
     }
 } else {
@@ -33,8 +36,8 @@ if (Input::siEnviado()) {
             </label>
             <br />
             <label>Clase
-                <select name="aula">
-                    <option value="null" disabled selected>-- Selecciona una opción --</option>
+                <select name='aula'>
+                    <!-- <option value="null" disabled selected>-- Selecciona una opción --</option> -->
                     <?php
                     $aulas = ["A01", "A02", "A03", "A04", "A05", "A06"];
                     foreach ($aulas as $aula) {
