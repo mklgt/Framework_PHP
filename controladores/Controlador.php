@@ -11,12 +11,24 @@ class Controlador
             $this->mostrarFormulario("Validar", null, null);
             exit();
         } else {
+<<<<<<< HEAD
             // if ($_POST['enviar'] == "validar") {
             //     # code...
             // }
             // Resultado es la variable que guarda toda la información del formulario
             $resultado = "<h3>Datos:</h3> <br>";
 
+=======
+            if ($_POST['enviar'] == "validar") {
+                # code...
+            }
+            // Resultado es la variable que guarda toda la información del formulario
+            $resultado = "<h3>Datos:</h3> <br>";
+
+            // Error es la variable que muestra todos los errores del formulario
+            //$error = null;
+
+>>>>>>> 75d28b9739d6e9f2b803ed6a8287fcdfafa56765
             // Campo de Usuario
             $usuario = $_POST['usuario'];
             $resultado .= "·Usuario: $usuario <br>";
@@ -78,7 +90,11 @@ class Controlador
         }
 
         //Formulario incorrecto, mostrarlo con los errores
+<<<<<<< HEAD
         $this->mostrarFormulario("Validar", $validador, null);
+=======
+        $this->mostrarFormulario("validar", $validador, null);
+>>>>>>> 75d28b9739d6e9f2b803ed6a8287fcdfafa56765
         exit();
     }
 }

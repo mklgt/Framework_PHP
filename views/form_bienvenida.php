@@ -36,6 +36,10 @@ if (Input::siEnviado()) {
             <br>
             <label>Clase
                 <select name='aula'>
+<<<<<<< HEAD
+=======
+                    <!-- <option value="null" disabled selected>-- Selecciona una opción --</option> -->
+>>>>>>> 75d28b9739d6e9f2b803ed6a8287fcdfafa56765
                     <?php
                     $aulas = ["A01", "A02", "A03", "A04", "A05", "A06"];
                     foreach ($aulas as $aula) {
