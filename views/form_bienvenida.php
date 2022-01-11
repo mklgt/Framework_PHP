@@ -8,12 +8,11 @@ if (Input::siEnviado()) {
     $errores = $validador->getErrores();
     if (!empty($errores)) {
         echo "<div class='error'>";
+        foreach ($errores as $campo => $mensajeError) {
+            echo "<p>$mensajeError</p>\n";
+        }
         echo "</div>";
     }
-} else {
-    echo "<div class='error'/>";
-    echo "No hay errores";
-    echo "</div>";
 }
 
 ?>
@@ -27,18 +26,20 @@ if (Input::siEnviado()) {
                 <?php
                 if (isset($_POST['usuario'])) {
                     echo "value=".$_POST['usuario'];    
-                }                
+                } else {
+                    //echo "value='agonzalgam1'"; // Valor de prueba
+                }
+                               
                 ?>
-                />
+                >
             </label>
-            <br />
+            <br>
             <label>Clase
-                <select name="aula">
-                    <option value="null" disabled selected>-- Selecciona una opción --</option>
+                <select name='aula'>
                     <?php
                     $aulas = ["A01", "A02", "A03", "A04", "A05", "A06"];
                     foreach ($aulas as $aula) {
-                        echo "<option value=$aula ";
+                        echo "<option id='aula' value=$aula ";
                         echo Utilidades::verificarSelect(Input::get('aula'), $aula) . ">";
                         echo "$aula </option>";
                     }
@@ -49,20 +50,22 @@ if (Input::siEnviado()) {
                     Fecha:
                     <input type="date" id="fecha" name="fecha"
                     <?php
+                    echo "value='2022-01-15'"; // Valor de prueba
                     $diaActual = "20" . date('y-m-d');
                     echo "min=$diaActual>";
-
+                    
                     ?>
+                    
                 </label>
                 <br />
                 <div class="horas">
                     <label>
                         Desde
-                        <input id="hora-desde" type="time" name="hora-desde" min="08:30" max="21:00">
+                        <input id="hora-desde" type="time" name="hora-desde" min="08:30" max="21:00" value="11:30">
                     </label>
                     <label>
                         Hasta
-                        <input id="hora-hasta" type="time" name="hora-hasta" min="08:30" max="21:00">
+                        <input id="hora-hasta" type="time" name="hora-hasta" min="08:30" max="21:00" value="19:00">
                     </label>
                 </div>
             </div>

@@ -2,7 +2,7 @@
 include "helper/ValidadorForm.php";
 class Controlador
 {
-
+    //private $resultado = null;
     public function run()
     {
         if (!isset($_POST['enviar'])) // No se ha enviado el formulario
@@ -11,14 +11,11 @@ class Controlador
             $this->mostrarFormulario("Validar", null, null);
             exit();
         } else {
-            if ($_POST['enviar']=="validar") {
-                # code...
-            }
+            // if ($_POST['enviar'] == "validar") {
+            //     # code...
+            // }
             // Resultado es la variable que guarda toda la información del formulario
             $resultado = "<h3>Datos:</h3> <br>";
-
-            // Error es la variable que muestra todos los errores del formulario
-            $error = null;
 
             // Campo de Usuario
             $usuario = $_POST['usuario'];
@@ -43,7 +40,7 @@ class Controlador
             $resultado .= "<br />";
 
             // Se llama al metodo de mostrar pasando el Resultado como argumento para mostrar
-            $this->mostrarFormulario("Continuar", null, $resultado);
+            $this->validar($resultado);
             exit();
         }
     }
@@ -60,14 +57,15 @@ class Controlador
 
         $reglasValidacion = array(
             "usuario" => array("required" => true, "min" => 8, "max" => 12),
-            "clase" => array("required" => true, "value" => !null),
-            "fecha" => array("required" => true, "min" => ("20" . date("y-m-d"))),
-            "hora-desde" => array("required" => true, "min" => "8:30", "max" => "hora-hasta"),
-            "hora-hasta" => array("required" => true, "min" => "hora-desde", "max" => "21:00")
+            "aula" => array("required" => true, "value" => !null),
+            "fecha" => array("required" => true, "min" => (date("Y-m-d"))),
+            "hora-desde" => array("required" => true, "min" => "8:30", "max" => $_POST['hora-hasta']),
+            "hora-hasta" => array("required" => true, "min" => $_POST['hora-desde'], "max" => "21:00")
         );
+        return $reglasValidacion;
     }
 
-    private function validar()
+    private function validar($resultado)
     {
         $validador = new ValidadorForm();
         $reglasValidacion = $this->crearReglasDeValidacion();
@@ -75,12 +73,12 @@ class Controlador
         if ($validador->esValido()) {
             //Formulario correcto, recoge datos y los
             //vuelve a mostrar con el resultado correcto
-            $this->mostrarFormulario("continuar", $validador, $resultado);
+            $this->mostrarFormulario("Continuar", $validador, $resultado);
             exit();
         }
 
-        //Formulario con errores
-        $this->mostrarFormulario("validar", $validador, null);
+        //Formulario incorrecto, mostrarlo con los errores
+        $this->mostrarFormulario("Validar", $validador, null);
         exit();
     }
 }
