@@ -1,4 +1,12 @@
 <?php
+
+/**
+ * @method string validar($fuente, $reglasValidación)
+ * @method string addError($nombreCampo, $error)
+ * @method string esValido()
+ * @method string getErrores()
+ * @method string getMensajeError($campo)
+ */
 class ValidadorForm
 {
 
@@ -10,6 +18,11 @@ class ValidadorForm
     {
     }
 
+    /**
+     * Comprueba que los campos cumplen las reglas de validación
+     * @param  array $fuente
+     * @param  array $reglasValidacion
+     */
     public function validar($fuente, $reglasValidacion)
     {
 
@@ -41,7 +54,6 @@ class ValidadorForm
                         case 'max':
                             if (strtotime($campoAValidar)) {
                                 if (strtotime($campoAValidar) > strtotime($valorRegla)) {
-                                    echo "$campoAValidar > $valorRegla";
                                     $this->addError($campo, "Debe ser menor que " . $valorRegla);
                                 }
                             } else {
@@ -70,31 +82,43 @@ class ValidadorForm
         }
     }
 
+    /**
+     * Añade $error al array $errores en la clave asignada $campo
+     * @param string $nombreCampo
+     * @param string $error
+     */
     public function addError($nombreCampo, $error)
     {
-        //$this->errores[] = "El campo " . $nombreCampo . " : " . $error;
-        $this->errores[] = "El campo " . $nombreCampo . " : " . $error;
+        $this->errores[$nombreCampo] = $error;
     }
 
+    /**
+     * Devuelve el array $errores
+     * @return array $errores
+     */
     public function getErrores()
     {
         return $this->errores;
     }
 
+    /**
+     * Devuelve el valor asociado a $campo
+     * @param  string $campo
+     * @return string
+     */
     public function getMensajeError($campo)
     {
-        foreach ($this->errores as $campoError => $error) {
+        foreach ($this->errores as $campoError => $mensaje) {
             if ($campoError == $campo) {
-                echo $error;
+                echo "El campo " . $campo . " : " . $mensaje;
             }
         }
-
-        /*
-        if (isset($this->errores[$campo])) {
-            return $this->errores[$campo];
-        }*/
     }
 
+    /**
+     * Devuelve el valor de $valido
+     * @return boolean $valido
+     */
     public function esValido()
     {
         if (empty($this->errores)) {

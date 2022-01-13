@@ -4,7 +4,6 @@
  * @method string get($dato)
  * @method boolean siEnviado()
  * @method string o array filtrarDato($datos)
- * @todo filtrarDato diferenciar si $datos es dato simple o array
  */
 class Input
 {
@@ -17,8 +16,7 @@ class Input
     public static function get($dato)
     {
         if (isset($_POST[$dato])) {
-            $campo = $_POST[$dato];
-            $campo = Input::filtrarDato($campo);
+            $campo = Input::filtrarDato($_POST[$dato]);
         } else {
             $campo = "";
         }
@@ -43,9 +41,8 @@ class Input
     public static function filtrarDato($datos)
     {
         if (isset($_POST[$datos])) {
-            //TODO: Hay que diferenciar entre dato simple o array
-            $campo = $_POST[$datos];
-            return htmlspecialchars($campo);
+            $campo = htmlspecialchars($_POST[$datos], ENT_QUOTES);
+            return $campo;
         }
     }
 }

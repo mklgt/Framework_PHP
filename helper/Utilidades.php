@@ -1,16 +1,16 @@
 <?php
 
 /**
- * 
+ * @method string verificarSelect($valor, $valormenu)
  */
 class Utilidades
 {
 
     /**
-     * [verificarSelect description]
-     * @param  [type] $valor     [description]
-     * @param  [type] $valormenu [description]
-     * @return [type]            [description]
+     * Comprueba y recupera los valores de los controles introducidos correctamente
+     * @param  string $valor
+     * @param  string $valormenu
+     * @return string echo 'selected="selected"';
      */
     public static function verificarSelect($valor, $valormenu)
     {

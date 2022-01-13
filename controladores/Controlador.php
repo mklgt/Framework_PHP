@@ -56,11 +56,11 @@ class Controlador
     {
 
         $reglasValidacion = array(
-            "usuario" => array("required" => true, "min" => 8, "max" => 12),
-            "aula" => array("required" => true, "value" => !null),
-            "fecha" => array("required" => true, "min" => (date("Y-m-d"))),
-            "hora-desde" => array("required" => true, "min" => "8:30", "max" => $_POST['hora-hasta']),
-            "hora-hasta" => array("required" => true, "min" => $_POST['hora-desde'], "max" => "21:00")
+            "usuario" => array("min" => 8, "max" => 12, "required" => true),
+            "aula" => array("value" => !null, "required" => true),
+            "fecha" => array("min" => (date("Y-m-d")), "required" => true),
+            "hora-desde" => array("min" => "8:30", "max" => $_POST['hora-hasta'], "required" => true),
+            "hora-hasta" => array("min" => $_POST['hora-desde'], "max" => "21:00", "required" => true)
         );
         return $reglasValidacion;
     }
