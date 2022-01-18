@@ -2,9 +2,6 @@
 include "helper/Utilidades.php";
 include "helper/Input.php";
 include "header.php";
-echo "<br>";
-$str = htmlspecialchars("<b>Mikel</b>", ENT_QUOTES);
-echo $str;
 
 if (Input::siEnviado()) {
     $errores = $validador->getErrores();
@@ -26,10 +23,10 @@ if (Input::siEnviado()) {
                 Usuario
                 <input type="text" name="usuario" minlength="8" maxlength="12"
                 <?php
-                if (isset($_POST['usuario']) && !(str_contains($_POST['usuario'], ">"))) {
-                    echo "value=".$_POST['usuario'];    
+                if (isset($_POST['usuario'])) {
+                    echo "value=" . Input::filtrarDato('usuario');    
                 } else {
-                    echo "value='<b>Mikel</b>'"; // Valor de prueba
+                    echo "value='agonzalgam1'"; // Valor de prueba
                 }
                                
                 ?>
@@ -52,7 +49,7 @@ if (Input::siEnviado()) {
                     Fecha:
                     <input type="date" id="fecha" name="fecha"
                     <?php
-                    echo "value='2022-01-15'"; // Valor de prueba
+                    echo "value='2022-01-19'"; // Valor de prueba
                     $diaActual = "20" . date('y-m-d');
                     echo "min=$diaActual>";
                     

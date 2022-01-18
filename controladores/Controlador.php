@@ -1,5 +1,6 @@
 <?php
 include "helper/ValidadorForm.php";
+
 class Controlador
 {
     //private $resultado = null;
@@ -18,7 +19,21 @@ class Controlador
             $resultado = "<h3>Datos:</h3> <br>";
 
             // Campo de Usuario
-            $usuario = $_POST['usuario'];
+            if (str_contains($_POST['usuario'], "<") && str_contains($_POST['usuario'], ">")) {
+                $usuario = strip_tags($_POST['usuario']);
+
+            } else if (str_contains($_POST['usuario'], "<")) {
+                $usuario = str_replace("<", "", $_POST['usuario']);
+
+            } else if (str_contains($_POST['usuario'], ">")) {
+                $usuario = str_replace(">", "", $_POST['usuario']);
+
+            } else {
+                $usuario = $_POST['usuario'];
+
+            }
+            
+            //$usuario = htmlspecialchars($_POST['usuario'], ENT_QUOTES);
             $resultado .= "·Usuario: $usuario <br>";
 
             // Campo de Aula

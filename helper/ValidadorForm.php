@@ -1,5 +1,5 @@
 <?php
-
+//include "Input.php";
 /**
  * @method string validar($fuente, $reglasValidación)
  * @method string addError($nombreCampo, $error)
