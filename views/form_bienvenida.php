@@ -26,6 +26,7 @@ if (Input::siEnviado()) {
                 if (isset($_POST['usuario'])) {
                     echo "value=" . Input::filtrarDato('usuario');    
                 }                               
+
                 ?>
                 >
             </label>
