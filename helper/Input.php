@@ -16,7 +16,7 @@ class Input
     public static function get($dato)
     {
         if (isset($_POST[$dato])) {
-            $campo = Input::filtrarDato($_POST[$dato]);
+            $campo = Input::filtrarDato($dato);
         } else {
             $campo = "";
         }
@@ -35,13 +35,18 @@ class Input
     /**
      * Devuelve los datos saneados de cualquier fragmento
      * de código que el usuario pueda insertar en los campos
-     * @param  string o array $datos
-     * @return string o array dependiendo de $datos
+     * @param  string $datos
+     * @return string dependiendo de $datos
      */
     public static function filtrarDato($datos)
     {
         if (isset($_POST[$datos])) {
-            $campo = htmlspecialchars($_POST[$datos], ENT_QUOTES);
+            $campo = $_POST[$datos];
+            //$campo = htmlspecialchars($_POST[$datos], ENT_QUOTES);
+            // Comprueba si el texto introducido en el campo contiene caracteres de etiquietas
+            if ($campo !== strip_tags($campo) || str_contains($campo, ">")) {
+                $campo = "";
+            }
             return $campo;
         }
     }

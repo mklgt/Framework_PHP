@@ -1,5 +1,5 @@
 <?php
-
+//include "Input.php";
 /**
  * @method string validar($fuente, $reglasValidación)
  * @method string addError($nombreCampo, $error)
@@ -36,6 +36,13 @@ class ValidadorForm
 
                             if (is_null($campoAValidar) || empty($campoAValidar)) {
                                 $this->addError($campo, "Es requerido");
+                            }
+                            break;
+
+                        case 'numeric':
+
+                            if (is_numeric($campoAValidar) != $valorRegla) {
+                                $this->addError($campo, "El campo no puede ser numérico");
                             }
                             break;
 

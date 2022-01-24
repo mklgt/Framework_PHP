@@ -2,9 +2,6 @@
 include "helper/Utilidades.php";
 include "helper/Input.php";
 include "header.php";
-echo "<br>";
-$str = htmlspecialchars("<b>Mikel</b>", ENT_QUOTES);
-echo $str;
 
 if (Input::siEnviado()) {
     $errores = $validador->getErrores();
@@ -26,17 +23,14 @@ if (Input::siEnviado()) {
                 Usuario
                 <input type="text" name="usuario" minlength="8" maxlength="12"
                 <?php
-                if (isset($_POST['usuario']) && !(str_contains($_POST['usuario'], ">"))) {
-                    echo "value=".$_POST['usuario'];    
-                } else {
-                    echo "value='<b>Mikel</b>'"; // Valor de prueba
-                }
-                               
+                if (isset($_POST['usuario'])) {
+                    echo "value=" . Input::filtrarDato('usuario');    
+                }                               
                 ?>
                 >
             </label>
             <br>
-            <label>Clase
+            <label>Aula
                 <select name='aula'>
                     <?php
                     $aulas = ["A01", "A02", "A03", "A04", "A05", "A06"];
@@ -52,7 +46,6 @@ if (Input::siEnviado()) {
                     Fecha:
                     <input type="date" id="fecha" name="fecha"
                     <?php
-                    echo "value='2022-01-15'"; // Valor de prueba
                     $diaActual = "20" . date('y-m-d');
                     echo "min=$diaActual>";
                     
@@ -63,11 +56,11 @@ if (Input::siEnviado()) {
                 <div class="horas">
                     <label>
                         Desde
-                        <input id="hora-desde" type="time" name="hora-desde" min="08:30" max="21:00" value="09:00">
+                        <input id="hora-desde" type="time" name="hora-desde" min="08:30" max="21:00">
                     </label>
                     <label>
                         Hasta
-                        <input id="hora-hasta" type="time" name="hora-hasta" min="08:30" max="21:00" value="12:00">
+                        <input id="hora-hasta" type="time" name="hora-hasta" min="08:30" max="21:00">
                     </label>
                 </div>
             </div>
