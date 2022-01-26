@@ -3,6 +3,9 @@ include "helper/ValidadorForm.php";
 
 class Controlador
 {
+
+    private $dao;
+
     //private $resultado = null;
     public function run()
     {
