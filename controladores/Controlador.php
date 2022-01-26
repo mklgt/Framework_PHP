@@ -21,18 +21,14 @@ class Controlador
             // Campo de Usuario
             if (str_contains($_POST['usuario'], "<") && str_contains($_POST['usuario'], ">")) {
                 $usuario = strip_tags($_POST['usuario']);
-
             } else if (str_contains($_POST['usuario'], "<")) {
                 $usuario = str_replace("<", "", $_POST['usuario']);
-
             } else if (str_contains($_POST['usuario'], ">")) {
                 $usuario = str_replace(">", "", $_POST['usuario']);
-
             } else {
                 $usuario = $_POST['usuario'];
-
             }
-            
+
             //$usuario = htmlspecialchars($_POST['usuario'], ENT_QUOTES);
             $resultado .= "·Usuario: $usuario <br>";
 
@@ -71,7 +67,7 @@ class Controlador
     {
 
         $reglasValidacion = array(
-            "usuario" => array("numeric" => false, "min" => 8, "max" => 12, "required" => true),
+            "usuario" => array("min" => 8, "max" => 12, "numeric" => false, "required" => true),
             "aula" => array("value" => !null, "required" => true),
             "fecha" => array("min" => (date("Y-m-d")), "required" => true),
             "hora-desde" => array("min" => "8:30", "max" => $_POST['hora-hasta'], "required" => true),
