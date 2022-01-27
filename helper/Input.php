@@ -41,14 +41,23 @@ class Input
     public static function filtrarDato($datos)
     {
         if (isset($_POST[$datos])) {
-            $campo = $_POST[$datos];
-            //$campo = htmlspecialchars($_POST[$datos], ENT_QUOTES);
-            // Comprueba si el texto introducido en el campo contiene caracteres de etiquietas
-            
-            if ($campo !== strip_tags($campo) || str_contains($campo, ">")) {
+            //$campo = $_POST[$datos];
 
-                $campo = "";
+            if (is_array($datos)) {
+                for ($i = 0; $i < count($datos); $i++) {
+                    $campo = htmlspecialchars(strip_tags($_POST[$datos[$i]]), ENT_QUOTES);
+                }
+            } else {
+                $campo = htmlspecialchars(strip_tags($_POST[$datos]), ENT_QUOTES);
             }
+
+            //$_POST['usuario'] = htmlspecialchars(strip_tags($_POST[$datos]), ENT_QUOTES);
+            echo $_POST['usuario'];
+
+            // if ($campo !== strip_tags($campo) || str_contains($campo, ">")) {
+
+            //     $campo = "";
+            // }
             return $campo;
         }
     }

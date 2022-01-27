@@ -25,6 +25,8 @@ if (Input::siEnviado()) {
                 <?php
                 if (isset($_POST['usuario'])) {
                     echo "value=" . Input::filtrarDato('usuario');    
+                } else {
+                    echo "value=";
                 }                               
 
                 ?>
@@ -48,6 +50,7 @@ if (Input::siEnviado()) {
                     <input type="date" id="fecha" name="fecha"
                     <?php
                     $diaActual = "20" . date('y-m-d');
+                    echo "value='2022-01-30' ";
                     echo "min=$diaActual>";
                     
                     ?>
@@ -57,11 +60,11 @@ if (Input::siEnviado()) {
                 <div class="horas">
                     <label>
                         Desde
-                        <input id="hora-desde" type="time" name="hora-desde" min="08:30" max="21:00">
+                        <input id="hora-desde" type="time" name="hora-desde" min="08:30" max="21:00" value="09:00">
                     </label>
                     <label>
                         Hasta
-                        <input id="hora-hasta" type="time" name="hora-hasta" min="08:30" max="21:00">
+                        <input id="hora-hasta" type="time" name="hora-hasta" min="08:30" max="21:00" value="12:00">
                     </label>
                 </div>
             </div>
