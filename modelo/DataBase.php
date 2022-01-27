@@ -21,6 +21,7 @@ class DataBase implements IDataBase
 
     public function desconectar()
     {
+        //Si tenemops variable de resultado que se guarda pues lo piondriamos en null tambien por si acaso
         $this->conexion = null;
     }
 
@@ -36,5 +37,7 @@ class DataBase implements IDataBase
     {
         //lo mismo que arriba pero con UPDATE
         //y mas seguro
+
+
     }
 }
