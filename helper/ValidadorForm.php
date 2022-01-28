@@ -41,10 +41,19 @@ class ValidadorForm
                             }
                             break;
 
-                        case 'numeric':
+                        case 'special_char':
 
                             if (is_numeric($campoAValidar) != $valorRegla) {
                                 $this->addError($campo, "El campo no puede ser numérico");
+                            }
+                            break;
+
+                        case 'numeric':
+                            $special_chars = ['&', '>', '<', '"', "'", "%", "`"];
+                            foreach ($special_chars as $char) {
+                                if (str_contains($campoAValidar, $char) != $valorRegla) {
+                                    $this->addError($campo, "El campo no puede contener el caracter <b>$char</b>");
+                                }
                             }
                             break;
 
