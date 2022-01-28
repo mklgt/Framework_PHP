@@ -30,8 +30,10 @@ class ValidadorForm
             if (isset($fuente[$campo])) {
                 $campoAValidar = $fuente[$campo];
                 foreach ($valores as $regla => $valorRegla) {
+                    $_POST['usuario'] = htmlspecialchars(strip_tags($_POST['usuario']), ENT_QUOTES);
 
                     switch ($regla) {
+
                         case 'required':
 
                             if (is_null($campoAValidar) || empty($campoAValidar)) {
