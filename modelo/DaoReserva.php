@@ -7,7 +7,7 @@ private $db;
 
 public function __construct()
     {
-//Tengo que ver lo que tengo que hacer aqui
+        $this->db = new DataBase();
     }
 
     public function existeReserva($aula, $fecha, $horaHasta){
@@ -15,7 +15,12 @@ public function __construct()
     }
 
     public function insertarAlumno($reserva){
-        
+        $this->db->conectar();
+        try {
+            $sql = "INSERT INTO reservas () VALUES (?, ?)";
+        } catch (Exception $ex) {
+            //throw $th;
+        }
     }
 
 }

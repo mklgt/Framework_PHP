@@ -20,8 +20,8 @@ class DataBase implements IDataBase
     }
 
     public function desconectar()
-    {
-        //Si tenemops variable de resultado que se guarda pues lo piondriamos en null tambien por si acaso
+    {        
+        //Si tenemos variable de resultado que se guarda pues lo pondriamos en null tambien por si acaso
         $this->conexion = null;
     }
 
