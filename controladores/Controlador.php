@@ -35,7 +35,7 @@ class Controlador
     {
 
         $reglasValidacion = array(
-            "usuario" => array("min" => 8, "max" => 12, "numeric" => false, "required" => true),
+            "usuario" => array("min" => 8, "max" => 12, "numeric" => false, "special_char" => false, "required" => true),
             "aula" => array("value" => !null, "required" => true),
             "fecha" => array("min" => (date("Y-m-d")), "required" => true),
             "hora-desde" => array("min" => "8:30", "max" => $_POST['hora-hasta'], "required" => true),

@@ -41,7 +41,6 @@ class Input
     public static function filtrarDato($datos)
     {
         if (isset($_POST[$datos])) {
-            //$campo = $_POST[$datos];
 
             if (is_array($datos)) {
                 for ($i = 0; $i < count($datos); $i++) {
@@ -51,13 +50,12 @@ class Input
                 $campo = htmlspecialchars(strip_tags($_POST[$datos]), ENT_QUOTES);
             }
 
-            //$_POST['usuario'] = htmlspecialchars(strip_tags($_POST[$datos]), ENT_QUOTES);
             echo $_POST['usuario'];
 
-            // if ($campo !== strip_tags($campo) || str_contains($campo, ">")) {
+            if ($campo !== strip_tags($campo) || str_contains($campo, ">")) {
 
-            //     $campo = "";
-            // }
+                $campo = "";
+            }
             return $campo;
         }
     }
