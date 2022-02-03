@@ -1,26 +1,33 @@
 <?php
+include 'DataBase.php';
+class DaoReserva
+{
 
-class DaoReserva{
 
+    private $db;
 
-private $db;
-
-public function __construct()
+    public function __construct()
     {
         $this->db = new DataBase();
     }
 
-    public function existeReserva($aula, $fecha, $horaHasta){
-
+    public function existeReserva($reserva)
+    {
+        //crear procedimiento almacenado
     }
 
-    public function insertarAlumno($reserva){
+    public function insertarReserva($reserva)
+    {
         $this->db->conectar();
         try {
-            $sql = "INSERT INTO reservas () VALUES (?, ?)";
+            //Ejemplo
+            //INSERT INTO `reservas` (`id`, `usuario`, `aula`, `fecha`, `horaDesde`, `horaHasta`) VALUES (NULL, 'mgoicoeoca', 'A02', '2022-02-04', '11:00:00', '11:55:00');
+            $sql = "INSERT INTO reservas (usuario, aula, fecha, horaDesde, horaHasta) VALUES (?, ?, ?, ?, ?)";
+            $args = array($reserva->getUsuario(), $reserva->getAula(), $reserva->getfecha(), $reserva->getHoraDesde(), $reserva->getHoraHasta());
+            $this->db->ejecutarSqlActualizacion($sql, $args);
         } catch (Exception $ex) {
-            //throw $th;
+            echo "Error al reservar -> $ex->getMessage()";
         }
     }
-
 }
+ 

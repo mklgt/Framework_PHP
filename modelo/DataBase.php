@@ -1,14 +1,14 @@
 <?php
-
-class DataBase implements IDataBase
+include 'config/config.php';
+class DataBase
 {
     private $conexion;
 
     public function conectar()
     {
         try {
-            //$this->conexion = new PDO('mysql:host=localhost;dbname='.DB_NAME,DB_USER, DB_PASS);
-            $this->conexion = new PDO('mysql:host=localhost;dbname=dbaulaweb,null, null');
+            $this->conexion = new PDO('mysql:host=' . DB_HOST . ';dbname=' . DB_NAME, DB_USER, DB_PASS);
+            //$this->conexion = new PDO('mysql:host=localhost;dbname=dbaulaweb', $usuario, $contraseña);
             $this->conexion->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, true);
             $this->conexion->exec('SET names utf8');
         } catch (Exception $ex) {
@@ -20,24 +20,60 @@ class DataBase implements IDataBase
     }
 
     public function desconectar()
-    {        
-        //Si tenemos variable de resultado que se guarda pues lo pondriamos en null tambien por si acaso
+    {
         $this->conexion = null;
     }
 
 
     public function ejecutarSql($sql)
     {
-        //hay que hacer un try catch
         $resul = $this->conexion->query($sql);
         return $resul;
     }
 
     public function ejecutarSqlActualizacion($sql, $args)
     {
-        //lo mismo que arriba pero con UPDATE
-        //y mas seguro
+        try {
+            $resul = $this->conexion->prepare($sql);
+            $resul->execute($args);
+            //
+            // if (!$resul) {
+            //     echo "<p>Error en la consulta.</p>";
+            // } else {
+            //     return $resul;
+            // }
 
-
+            return $resul;
+        } catch (Exception $e) {
+            echo "<p>Error: " . $e->getMessage() . "</p>\n";
+        }
+        
     }
+    /*public function ejecutarSqlActualizacionPRUEBA($sql, $args)
+{
+try {
+
+$resul = $this->conexion->prepare($sql);
+foreach ($args as $arg => $valor) {
+$resul->bindParam($arg, $valor, PDO::PARAM_STR, 50);
+}
+$resul->execute();
+//
+// if (!$resul) {
+// echo "
+
+//Error en la consulta.
+";
+// } else {
+// return $resul;
+// }
+var_dump($resul);
+return $resul;
+} catch (Exception $e) {
+echo "
+
+Error: " . $e->getMessage() . "
+\n";
+}
+}*/
 }

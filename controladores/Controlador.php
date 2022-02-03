@@ -1,8 +1,11 @@
 <?php
 include "helper/ValidadorForm.php";
+include "modelo/DaoReserva.php";
+include "modelo/Reserva.php";
 
 class Controlador
 {
+    private $dao;
     //private $resultado = null;
     public function run()
     {
@@ -78,6 +81,8 @@ class Controlador
 
             $resultado .= "<br />";
 
+            $this->registrar($_POST);
+
             $this->mostrarFormulario("Continuar", $validador, $resultado);
             exit();
         }
@@ -85,5 +90,29 @@ class Controlador
         //Formulario incorrecto, mostrarlo con los errores
         $this->mostrarFormulario("Validar", $validador, null);
         exit();
+    }
+
+    private function crearReserva($datos)
+    {
+        $usuario = $datos['usuario'];
+        $aula = $datos['aula'];
+        $fecha = $datos['fecha'];
+        $horaInicio = $datos['hora-desde'];
+        $horaHasta = $datos['hora-hasta'];
+        $reserva = new Reserva($usuario, $aula, $fecha, $horaInicio, $horaHasta);
+        return $reserva;
+    }
+
+    private function registrar($validador)
+    {
+        $this->dao = new DaoReserva();
+        $reserva = $this->crearReserva($_POST);
+        //Aqui comprobar que no hay otra reserva
+        //Si no hay ningun registro (se puede reservar)
+        $this->dao->insertarReserva($reserva);
+        //Enviar mensaje de INSERTADO
+        //O enviar mensaje de ERROR
+
+
     }
 }
