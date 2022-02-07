@@ -6,9 +6,10 @@ include "modelo/Reserva.php";
 class Controlador
 {
     private $dao;
-    //private $resultado = null;
+
     public function run()
     {
+        //Aqui lo de las páginas
         if (!isset($_POST['enviar'])) // No se ha enviado el formulario
         {
             // Se llama al método para mostrar el formulario inicial pasando un argumento sin valor como resultado
@@ -81,9 +82,13 @@ class Controlador
 
             $resultado .= "<br />";
 
-            $this->registrar($_POST);
+            $this->registrar($validador);
+            if ($validador->esValido()) {
+                $this->mostrarFormulario("Continuar", $validador, $resultado);
+            }else{
+                $this->mostrarFormulario("Validar", $validador, null);
+            }
 
-            $this->mostrarFormulario("Continuar", $validador, $resultado);
             exit();
         }
 
@@ -107,12 +112,14 @@ class Controlador
     {
         $this->dao = new DaoReserva();
         $reserva = $this->crearReserva($_POST);
-        //Aqui comprobar que no hay otra reserva
-        //Si no hay ningun registro (se puede reservar)
-        $this->dao->insertarReserva($reserva);
-        //Enviar mensaje de INSERTADO
-        //O enviar mensaje de ERROR
+        
 
-
+        $existeReserva = $this->dao->existeReserva($reserva);
+        if (!$existeReserva) {
+            $this->dao->insertarReserva($reserva);
+            
+        } else {
+            $validador->addError("Reservada", "Aula ya reservada");
+        }
     }
 }

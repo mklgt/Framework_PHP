@@ -16,6 +16,7 @@
 
     <nav>
         <a href="#">Reservar</a>
+        <a href="#">Consultar Aula</a>
     </nav>
 
     <main>
