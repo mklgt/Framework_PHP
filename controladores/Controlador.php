@@ -9,23 +9,29 @@ class Controlador
 
     public function run()
     {
-        //Aqui lo de las páginas
-        if (!isset($_POST['enviar'])) // No se ha enviado el formulario
-        {
-            // Se llama al método para mostrar el formulario inicial pasando un argumento sin valor como resultado
-            $this->mostrarFormulario("Validar", null, null);
-            exit();
-        }
-        if (isset($_POST['enviar']) && ($_POST['enviar']) == 'Validar') {
 
-            $this->validar();
-            exit();
-        }
-        if (isset($_POST['enviar']) && ($_POST['enviar']) == 'Continuar') {
-
+        if (isset($_POST['pagina']) && ($_POST['pagina']) == 'consulta') {
+            $this->mostrarConsulta();
             unset($_POST);
-            $this->mostrarFormulario('Validar', null, null);
+        } else {
+            if (!isset($_POST['enviar'])) // No se ha enviado el formulario
+            {
+                // Se llama al método para mostrar el formulario inicial pasando un argumento sin valor como resultado
+                $this->mostrarFormulario("Validar", null, null);
+                exit();
+            }
+            if (isset($_POST['enviar']) && ($_POST['enviar']) == 'Validar') {
+
+                $this->validar();
+                exit();
+            }
+            if (isset($_POST['enviar']) && ($_POST['enviar']) == 'Continuar') {
+
+                unset($_POST);
+                $this->mostrarFormulario('Validar', null, null);
+            }
         }
+        
     }
 
     // Metodo que muestra el formulario
@@ -34,6 +40,14 @@ class Controlador
         //se muestra la vista del formulario (la plantilla form_bienvenida.php)   
         include 'views/form_bienvenida.php';
     }
+
+    //Metodo que muestra la página de consultas
+    private function mostrarConsulta()
+    {
+        //se muestra la vista del formulario (la plantilla form_consultas.php)   
+        include 'views/form_consulta.php';
+    }
+
 
     private function crearReglasDeValidacion()
     {
@@ -85,7 +99,7 @@ class Controlador
             $this->registrar($validador);
             if ($validador->esValido()) {
                 $this->mostrarFormulario("Continuar", $validador, $resultado);
-            }else{
+            } else {
                 $this->mostrarFormulario("Validar", $validador, null);
             }
 
@@ -112,12 +126,11 @@ class Controlador
     {
         $this->dao = new DaoReserva();
         $reserva = $this->crearReserva($_POST);
-        
+
 
         $existeReserva = $this->dao->existeReserva($reserva);
         if (!$existeReserva) {
             $this->dao->insertarReserva($reserva);
-            
         } else {
             $validador->addError("Reservada", "Aula ya reservada");
         }

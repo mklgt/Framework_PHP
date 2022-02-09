@@ -29,7 +29,7 @@ class Input
      */
     public static function siEnviado()
     {
-        return (!empty($_POST)) ? true : false;
+        return (!empty($_POST['usuario']) && !empty($_POST['aula']) && !empty($_POST['fecha']) && !empty($_POST['hora-desde']) && !empty($_POST['hora-hasta'])) ? true : false;
     }
 
     /**

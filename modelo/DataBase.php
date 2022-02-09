@@ -1,6 +1,7 @@
 <?php
+include "IDataBase.php";
 include 'config/config.php';
-class DataBase
+class DataBase implements IDataBase
 {
     private $conexion;
 

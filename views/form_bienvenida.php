@@ -51,7 +51,6 @@ if (Input::siEnviado()) {
                     echo "min=$diaActual>";
                     
                     ?>
-                    
                 </label>
                 <br />
                 <div class="horas">
