@@ -12,7 +12,7 @@ class Controlador
         $db = new DataBase();
         $db->conectar();
 
-        if (isset($_POST['pagina']) && ($_POST['pagina']) == 'consulta') {
+        if ((isset($_POST['pagina']) && ($_POST['pagina']) == 'consulta') || (isset($_POST['consulta']) && $_POST['consulta'] == 'Consultar')) {
 
 
             $this->mostrarConsulta();
