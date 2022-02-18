@@ -15,18 +15,18 @@ if (Input::siEnviado()) {
 }
 
 ?>
-<form id="form" action="index.php" method="post">
+<form id="form" action="index.php" method="post" enctype="multipart/form-data">
 
     <div>
         <div class='uno'>
             <label>
                 Usuario
-                <input type="text" name="usuario" minlength="8" maxlength="12"
+                <input type="text" name="usuario" minlength="8" maxlength="12" value="agonzalgam1"
                 <?php
                 if (isset($_POST['usuario'])) {
                     echo "value=" . Input::filtrarDato('usuario');    
                 }                               
-
+                
                 ?>
                 >
             </label>
@@ -45,7 +45,7 @@ if (Input::siEnviado()) {
             <div class="horario">
                 <label for="fecha">
                     Fecha:
-                    <input type="date" id="fecha" name="fecha"
+                    <input type="date" id="fecha" name="fecha" value="2022-02-20"
                     <?php
                     $diaActual = "20" . date('y-m-d');
                     echo "min=$diaActual>";
@@ -56,14 +56,19 @@ if (Input::siEnviado()) {
                 <div class="horas">
                     <label>
                         Desde
-                        <input id="hora-desde" type="time" name="hora-desde" min="08:30" max="21:00">
+                        <input id="hora-desde" type="time" name="hora-desde" min="08:30" max="21:00" value="09:00">
                     </label>
                     <label>
                         Hasta
-                        <input id="hora-hasta" type="time" name="hora-hasta" min="08:30" max="21:00">
+                        <input id="hora-hasta" type="time" name="hora-hasta" min="08:30" max="21:00" value="10:20">
                     </label>
                 </div>
             </div>
+            <br>
+            <label>
+                Importar nuevo fichero:
+                <input type="file" name="importar-archivo" accept="text/xml"> 
+            </label> 
             <input id="submit" type="submit" name="enviar" 
             <?php
             echo "value=$fase />";
@@ -72,6 +77,7 @@ if (Input::siEnviado()) {
 
 
 <?php
+echo $_POST['aula_consulta'];
 if (isset($resultado)) {
     echo "<div class='resultado'/>";
     echo $resultado;

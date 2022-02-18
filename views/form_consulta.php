@@ -17,7 +17,7 @@ include "header.php";
                 <div class="horas">
                     <label for="fecha">
                         Clase:
-                        <select name='aula'>
+                        <select name='aula_consulta'>
                             <?php
                             $aulas = ["A01", "A02", "A03", "A04", "A05", "A06"];
                             foreach ($aulas as $aula) {
@@ -31,13 +31,31 @@ include "header.php";
                 </div>
             </div>
         </div>
-        <input id="submit" type="submit" name="enviar" />
+        <input id="submit" type="submit" name="consulta" value="Consultar" />
+
     </div>
 
 </form>
 
-
-
 <?php
+echo "<h1>Clase: A1 </h1>";
+echo "<div class='calendario'/>";
+echo "<p class='libre'>8:30</p>";
+echo "<p class='libre'>9:25</p>";
+echo "<p class='ocupado'>10:20</p>";
+echo "<p class='ocupado'>11:15</p>";
+echo "<p class='libre'>11:45</p>";
+echo "<p class='ocupado'>12:40</p>";
+echo "<p class='ocupado'>13:35</p>";
+echo "<p class='libre'>14:30</p>";
+echo "<p class='libre'>15:25</p>";
+echo "<p class='ocupado'>16:20</p>";
+echo "<p class='libre'>17:15</p>";
+echo "<p class='ocupado'>18:10</p>";
+echo "<p class='libre'>19:05</p>";
+echo "<p class='ocupado'>20:00</p>";
+echo "<p class='libre'>21:00</p>";
+echo "</div>";
+
 include "footer.php"
 ?>

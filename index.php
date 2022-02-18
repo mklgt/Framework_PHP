@@ -13,6 +13,7 @@
  * 
  * La aplicación implementará el patrón de diseño DAO  para el acceso a la Base de datos a través de la API.
  */
+    set_time_limit(300);
      require_once 'controladores/Controlador.php';
      $controlador = new Controlador();
      $controlador->run();

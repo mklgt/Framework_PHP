@@ -9,10 +9,13 @@ class Controlador
 
     public function run()
     {
+        $db = new DataBase();
+        $db->conectar();
 
         if (isset($_POST['pagina']) && ($_POST['pagina']) == 'consulta') {
+
+
             $this->mostrarConsulta();
-            unset($_POST);
         } else {
             if (!isset($_POST['enviar'])) // No se ha enviado el formulario
             {
@@ -31,7 +34,6 @@ class Controlador
                 $this->mostrarFormulario('Validar', null, null);
             }
         }
-        
     }
 
     // Metodo que muestra el formulario
@@ -95,6 +97,9 @@ class Controlador
             $resultado .= "hasta: $horaFin";
 
             $resultado .= "<br />";
+
+            // Archivo importado
+            $archivoImportado = $_FILES['importar-archivo']['name'];
 
             $this->registrar($validador);
             if ($validador->esValido()) {

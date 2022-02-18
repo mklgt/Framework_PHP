@@ -18,8 +18,7 @@
         <form id="formPag" action="index.php" method="post" class="nav">
             <button type="submit" name="pagina" value="formulario" class="btn-link">Reservar</button>
             <button type="submit" name="pagina" value="consulta" class="btn-link">Consultar Aula</button>
-            <!--<a id="submit" type="submit" name="pagina">Reservar</a>-->
-            <!--<a id="submit" type="submit" name="pagina">Consultar Aula</a>-->
+            <button type="submit" name="pagina" value="ddbb" class="btn-link">Base de Datos</button>
         </form>
     </nav>
 

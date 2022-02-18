@@ -1,8 +1,13 @@
 <?php
 include 'DataBase.php';
+set_time_limit(300);
+/**
+ * @method existeReserva($reserva)
+ * @method insertarReserva($reserva)
+ */
 class DaoReserva
 {
-
+    
 
     private $db;
 
@@ -30,6 +35,12 @@ class DaoReserva
         $this->db->desconectar();
     }
 
+    /**
+     * Recibe la reserva y simplemente hace una conulta de tipo INSERT
+     * @param  Reserva $reserva
+     * @return void Esta función no devuelve nada pero si hay algun tipo de error devuelve el
+     * mensaje del catch
+     */
     public function insertarReserva($reserva)
     {
         $this->db->conectar();
