@@ -16,6 +16,11 @@ class DaoReserva
         $this->db = new DataBase();
     }
 
+     /**
+     * Recibe la reserva y simplemente hace una conulta de tipo INSERT
+     * @param  Reserva $reserva
+     * @return boolean true o false dependiendo del resultado de la consulta
+     */
     public function existeReserva($reserva)
     {
         $this->db->conectar();

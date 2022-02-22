@@ -66,12 +66,10 @@ class DataBase implements IDataBase
     }
 
     /**
-     * Llama al procedimiento almacenado en la base de datos 'aulasReservadas' y este nos devuelve 
-     * un 0 si es que NO hay ninguna clase en el dia y horas que se indican
-     * @param  Reserva $reserva
-     * @return boolean true si existe una reserva ya y false si no hay reserva;
+     * Función que crea las tablas definidas anteriormente
+     * @param  mixed $conexion
+     * @param  tables $tables
      */
-    //Función que crea las tablas definidas anteriormente
     public function createTables($conexion, $tables)
     {
         foreach ($tables as $table => $campos) {
@@ -94,10 +92,9 @@ class DataBase implements IDataBase
 
 
     /**
-     * Llama al procedimiento almacenado en la base de datos 'aulasReservadas' y este nos devuelve 
-     * un 0 si es que NO hay ninguna clase en el dia y horas que se indican
-     * @param  Reserva $reserva
-     * @return boolean true si existe una reserva ya y false si no hay reserva;
+     * Ejecurta la consulta SQL (No usar esta)
+     * @param  string $sql
+     * @return mixed $result el resultado de la consulta;
      */
     public function ejecutarSql($sql)
     {
@@ -106,10 +103,10 @@ class DataBase implements IDataBase
     }
 
     /**
-     * Llama al procedimiento almacenado en la base de datos 'aulasReservadas' y este nos devuelve 
-     * un 0 si es que NO hay ninguna clase en el dia y horas que se indican
-     * @param  Reserva $reserva
-     * @return mixed true si existe una reserva ya y false si no hay reserva;
+     * Ejecurta la consulta SQL (Usar esta)
+     * @param  string $sql
+     * @param  array $args
+     * @return mixed $result;
      */
     public function ejecutarSqlActualizacion($sql, $args)
     {
@@ -130,12 +127,10 @@ class DataBase implements IDataBase
     }
 
     /**
-     * Llama al procedimiento almacenado en la base de datos 'aulasReservadas' y este nos devuelve 
-     * un 0 si es que NO hay ninguna clase en el dia y horas que se indican
-     * @param  Reserva $reserva
-     * @return boolean true si existe una reserva ya y false si no hay reserva;
+     * Función que se ejecuta un sola vez al crearse la base de datos e introducir los datos a consultar
+     * @param  array $args
+     * @param  string $tablaInsercion
      */
-    //Función que se ejecuta un sola vez al crearse la base de datos e introducir los datos a consultar
     public function insertarInformacion($args, $tablaInsercion)
     {
         try {
@@ -198,10 +193,9 @@ class DataBase implements IDataBase
     }
 
     /**
-     * Llama al procedimiento almacenado en la base de datos 'aulasReservadas' y este nos devuelve 
-     * un 0 si es que NO hay ninguna clase en el dia y horas que se indican
-     * @param  Reserva $reserva
-     * @return boolean true si existe una reserva ya y false si no hay reserva;
+     * Se ejecuta una vez a la hora de crear la base de datos del xml especificado.
+     * Revisa el xml por campos, recoge los datos para columnas de la tabla, los guarda en un array de argumentos para insertarlos.
+     * @return void
      */
     public function consultarInformacion()
     {

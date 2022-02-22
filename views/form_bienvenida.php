@@ -45,7 +45,7 @@ if (Input::siEnviado()) {
             <div class="horario">
                 <label for="fecha">
                     Fecha:
-                    <input type="date" id="fecha" name="fecha" value="2022-02-20"
+                    <input type="date" id="fecha" name="fecha" value="2022-02-28"
                     <?php
                     $diaActual = "20" . date('y-m-d');
                     echo "min=$diaActual>";
@@ -77,7 +77,6 @@ if (Input::siEnviado()) {
 
 
 <?php
-echo $_POST['aula_consulta'];
 if (isset($resultado)) {
     echo "<div class='resultado'/>";
     echo $resultado;
