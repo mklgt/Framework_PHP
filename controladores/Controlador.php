@@ -26,12 +26,12 @@ class Controlador
         if ((isset($_POST['pagina']) && ($_POST['pagina']) == 'consulta') || (isset($_POST['consulta']) && $_POST['consulta'] == 'Consultar')) {
 
             if (isset($_POST['fecha_consulta']) && isset($_POST['aula_consulta'])) {
-                $horasOcupadas = $this->consultarFecha($_POST['fecha_consulta'], $_POST['aula_consulta']);
+                $datosTotales = $this->consultarFecha($_POST['fecha_consulta'], $_POST['aula_consulta']);
             } else {
-                $horasOcupadas = '';
+                $datosTotales = '';
             }
 
-            $this->mostrarConsulta($horasOcupadas);
+            $this->mostrarConsulta($datosTotales);
             exit();
         } else {
             if (!isset($_POST['enviar'])) // No se ha enviado el formulario
@@ -61,7 +61,7 @@ class Controlador
     }
 
     //Metodo que muestra la página de consultas
-    private function mostrarConsulta($horasOcupadas)
+    private function mostrarConsulta($datosTotales)
     {
         //se muestra la vista del formulario (la plantilla form_consultas.php)   
         include 'views/form_consulta.php';

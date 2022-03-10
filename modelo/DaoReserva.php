@@ -65,34 +65,59 @@ class DaoReserva
     public function consultarFechaAula($fecha, $aula)
     {
         $this->db->conectar();
-        $sql = "SELECT horaDesde, horaHasta FROM reservas WHERE fecha = '$fecha' AND aula = '$aula'";
-        //$args = array($fecha, $aula);
-        $horasTotales = ['08:30', '09:25', '10:20', '11:15', '11:45', '12:40', '13:35', '14:30', '15:25', '16:20', '17:15', '18:10', '19:05', '20:00', '21:00'];
+        $sql = "SELECT horaDesde, horaHasta, usuario FROM reservas WHERE fecha = '$fecha' AND aula = '$aula'";
+
+        // //$args = array($fecha, $aula);
+        // $horasTotales = ['08:30', '09:25', '10:20', '11:15', '11:45', '12:40', '13:35', '14:30', '15:25', '16:20', '17:15', '18:10', '19:05', '20:00', '21:00'];
         $resultado = ($this->db->ejecutarSql($sql))->fetchAll();
         $horasOcupadas = array();
-        $horasDeshabilitadas = array();
-        foreach ($resultado as $horas) {
-            foreach ($horas as $hora) {
-                $hora = substr($hora, 0, -3);
-                if (!in_array($hora, $horasOcupadas)) {
-                    $horasOcupadas[] = $hora;
-                }    
+        $datosTotales = array();
+
+        foreach ($resultado as $datos) {
+            foreach ($datos as $dato) {
+                if (strlen($dato) > 8) {
+                    $usuario = $dato;
+                } else {
+                    $hora = substr($dato, 0, -3);
+                    if (!in_array($hora, $horasOcupadas)) {
+                        $horasOcupadas[] = $hora;
+                    } 
+                }
             }
+            $datosTotales[] = array(
+                "usuario" => $usuario,
+                "horasOcupadas" => $horasOcupadas
+            );
         }
-        $desde = 0;
         
-        for ($pos=0; $pos < count($horasOcupadas); $pos++) { 
-            if ($pos % 2 == 0) {
-                $desde = array_search($horasOcupadas[$pos], $horas);
-            } else {
-                $hasta = array_search($horasOcupadas[$pos], $horasTotales);
-                echo $desde . "-" . $hasta;
-                $horasDeshabilitadas = array_slice($horasTotales, $desde, $hasta);
-            }
+        return $datosTotales;
+
+
+        // $horasOcupadas = array();
+        // $horasDeshabilitadas = array();
+        // foreach ($resultado as $horas) {
+        //     foreach ($horas as $hora) {
+        //         $hora = substr($hora, 0, -3);
+        //         if (!in_array($hora, $horasOcupadas)) {
+        //             $horasOcupadas[] = $hora;
+        //         }    
+        //     }
+        // }
+
+        // $desde = 0;
+        
+        // for ($pos=0; $pos < count($horasOcupadas); $pos++) { 
+        //     if ($pos % 2 == 0) {
+        //         $desde = array_search($horasOcupadas[$pos], $horas);
+        //     } else {
+        //         $hasta = array_search($horasOcupadas[$pos], $horasTotales);
+        //         echo $desde . "-" . $hasta;
+        //         $horasDeshabilitadas = array_slice($horasTotales, $desde, $hasta);
+        //     }
             
             
-        }
-        return $horasDeshabilitadas;
+        // }
+        // return $horasDeshabilitadas;
         
     }
     

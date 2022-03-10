@@ -57,7 +57,7 @@ if (Input::siEnviado()) {
                         echo "value = $fecha_seleccionada";
                     }
                     $diaActual = "20" . date('y-m-d');
-                    echo " min=$diaActual value='2022-02-25'>";
+                    echo " min=$diaActual value='2022-03-25'>";
                     
                     ?>
                 </label>
@@ -96,7 +96,14 @@ if (Input::siEnviado()) {
                     </select><br />
                     </label>
                 </div>
+                
             </div>
+            <br>
+            <label>
+                Motivo:
+                <br>
+                <textarea id="motivo" name="motivo" rows="7" cols="100" placeholder="Esciba el motivo de su reserva..."></textarea>
+            </label>
             <input id="submit" type="submit" name="enviar" 
             <?php
             echo "value=$fase />";

@@ -11,7 +11,7 @@ include "header.php";
             <div class="horario">
                 <label for="fecha">
                     Fecha:
-                    <input type="date" id="fecha_consulta" name="fecha_consulta" value="2022-02-25">
+                    <input type="date" id="fecha_consulta" name="fecha_consulta" value="2022-03-31">
                 </label>
                 <br />
                 <div class="horas">
@@ -44,8 +44,9 @@ if (isset($_POST['aula_consulta']) && isset($_POST['fecha_consulta'])) {
     $fecha_consulta = $_POST['fecha_consulta'];
 }
 echo "<pre>";
-print_r($horasOcupadas);
+print_r($datosTotales);
 echo "</pre>";
+
 
 if (isset($_POST['aula_consulta'])) {
     echo "<h1>Clase: $aula_consulta</h1>";
@@ -54,11 +55,16 @@ if (isset($_POST['aula_consulta'])) {
 
     echo "<div class='calendario'/>";
     foreach ($horas as $hora) {
+        foreach ($datosTotales as $datos) {
+        $usuario = $datos['usuario'];
+        $horasOcupadas = $datos['horasOcupadas'];
+
         if (in_array($hora, $horasOcupadas)) {
             $clase = 'ocupado';      
         } else {
             $clase = 'libre';
         }
+    }
         echo "<p class='$clase'><a href='index.php?hora_seleccionada=$hora&&fecha_seleccionada=$fecha_consulta&&aula_seleccionada=$aula_consulta'>$hora</a></p>";
     }
     echo "</div>";
