@@ -11,7 +11,7 @@ include "header.php";
             <div class="horario">
                 <label for="fecha">
                     Fecha:
-                    <input type="date" id="fecha_consulta" name="fecha_consulta">
+                    <input type="date" id="fecha_consulta" name="fecha_consulta" value="2022-02-25">
                 </label>
                 <br />
                 <div class="horas">
@@ -43,30 +43,26 @@ if (isset($_POST['aula_consulta']) && isset($_POST['fecha_consulta'])) {
     $aula_consulta = $_POST['aula_consulta'];
     $fecha_consulta = $_POST['fecha_consulta'];
 }
-
+echo "<pre>";
+print_r($horasOcupadas);
+echo "</pre>";
 
 if (isset($_POST['aula_consulta'])) {
     echo "<h1>Clase: $aula_consulta</h1>";
     echo "<h1>Día: $fecha_consulta</h1>";
+    $horas = ['08:30', '09:25', '10:20', '11:15', '11:45', '12:40', '13:35', '14:30', '15:25', '16:20', '17:15', '18:10', '19:05', '20:00', '21:00'];
+
     echo "<div class='calendario'/>";
-    echo "<p class='libre'>8:30</p>";
-    echo "<p class='libre'>9:25</p>";
-    echo "<p class='ocupado'>10:20</p>";
-    echo "<p class='ocupado'>11:15</p>";
-    echo "<p class='libre'>11:45</p>";
-    echo "<p class='ocupado'>12:40</p>";
-    echo "<p class='ocupado'>13:35</p>";
-    echo "<p class='libre'>14:30</p>";
-    echo "<p class='libre'>15:25</p>";
-    echo "<p class='ocupado'>16:20</p>";
-    echo "<p class='libre'>17:15</p>";
-    echo "<p class='ocupado'>18:10</p>";
-    echo "<p class='libre'>19:05</p>";
-    echo "<p class='ocupado'>20:00</p>";
-    echo "<p class='libre'>21:00</p>";
+    foreach ($horas as $hora) {
+        if (in_array($hora, $horasOcupadas)) {
+            $clase = 'ocupado';      
+        } else {
+            $clase = 'libre';
+        }
+        echo "<p class='$clase'><a href='index.php?hora_seleccionada=$hora&&fecha_seleccionada=$fecha_consulta&&aula_seleccionada=$aula_consulta'>$hora</a></p>";
+    }
     echo "</div>";
 }
-
 
 include "footer.php"
 ?>

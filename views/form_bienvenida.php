@@ -37,38 +37,66 @@ if (Input::siEnviado()) {
                     $aulas = ["A01", "A02", "A03", "A04", "A05", "A06"];
                     foreach ($aulas as $aula) {
                         echo "<option id='aula' value=$aula ";
-                        echo Utilidades::verificarSelect(Input::get('aula'), $aula) . ">";
+                        if (isset($_GET['aula_seleccionada']) && $_GET['aula_seleccionada'] == $aula) {
+                            echo "selected >";
+                        } else {
+                            echo Utilidades::verificarSelect(Input::get('aula'), $aula) . ">";
+                        }
+                        
                         echo "$aula </option>";
                     }
                     ?>
                 </select><br /></label>
             <div class="horario">
-                <label for="fecha">
+            <label for="fecha">
                     Fecha:
-                    <input type="date" id="fecha" name="fecha" value="2022-02-28"
+                    <input type="date" id="fecha" name="fecha"
                     <?php
+                    if (isset($_GET['fecha_seleccionada'])) {
+                        $fecha_seleccionada = $_GET['fecha_seleccionada'];
+                        echo "value = $fecha_seleccionada";
+                    }
                     $diaActual = "20" . date('y-m-d');
-                    echo "min=$diaActual>";
+                    echo " min=$diaActual value='2022-02-25'>";
                     
                     ?>
                 </label>
                 <br />
                 <div class="horas">
-                    <label>
+                <label>
                         Desde
-                        <input id="hora-desde" type="time" name="hora-desde" min="08:30" max="21:00" value="09:00">
+                        <select name='hora-desde'>
+                    <?php
+                    $horas = ['08:30', '09:25', '10:20', '11:15', '11:45', '12:40', '13:35', '14:30', '15:25', '16:20', '17:15', '18:10', '19:05', '20:00', '21:00'];
+                    foreach ($horas as $hora) {
+                        echo "<option id='hora-desde' value=$hora name='hora-desde' ";
+                        
+                        if (isset($_GET['hora_seleccionada']) && $_GET['hora_seleccionada'] == $hora) {
+                            $hora_seleccionada = $_GET['hora_seleccionada'];
+                            echo "selected >";
+                        } else {
+                            echo Utilidades::verificarSelect(Input::get('hora-desde'), $hora) . " >";
+                        }
+                        echo "$hora </option>";
+                    }
+                    ?>
+                </select><br />
                     </label>
                     <label>
                         Hasta
-                        <input id="hora-hasta" type="time" name="hora-hasta" min="08:30" max="21:00" value="10:20">
+                        <select name='hora-hasta'>
+                        <?php
+                        $horas = ['08:30', '09:25', '10:20', '11:15', '11:45', '12:40', '13:35', '14:30', '15:25', '16:20', '17:15', '18:10', '19:05', '20:00', '21:00'];
+                        foreach ($horas as $hora) {
+                            echo "<option id='hora-hasta' value=$hora name='hora-hasta' ";
+                            echo Utilidades::verificarSelect(Input::get('hora-hasta'), $hora) . " >";                      
+                            echo "$hora </option>";
+                        }
+                        ?>
+                    </select><br />
                     </label>
                 </div>
             </div>
-            <br>
-            <label>
-                Importar nuevo fichero:
-                <input type="file" name="importar-archivo" accept="text/xml"> 
-            </label> 
             <input id="submit" type="submit" name="enviar" 
             <?php
             echo "value=$fase />";
@@ -77,6 +105,7 @@ if (Input::siEnviado()) {
 
 
 <?php
+
 if (isset($resultado)) {
     echo "<div class='resultado'/>";
     echo $resultado;

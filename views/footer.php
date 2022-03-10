@@ -8,7 +8,7 @@
             setlocale(LC_TIME, 'Spanish');
             $fecha = strftime("%A, %d  %B %Y");
             echo utf8_encode($fecha);
-            ?> Ejercicios iniciales de PHP
+            ?> Proyecto Consulta de Aulas
         </p>
     </footer>
 </body>

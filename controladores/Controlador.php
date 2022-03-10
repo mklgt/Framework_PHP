@@ -9,13 +9,30 @@ class Controlador
 
     public function run()
     {
-        $db = new DataBase();
-        $db->conectar();
+        //$db = new DataBase();
+        //$db->conectar();
+
+        if (isset($_POST['pagina']) && ($_POST['pagina']) == 'bbdd') {
+            $this->mostrarbbdd(null);
+            exit();
+        }
+        if (isset($_POST['bbdd']) && ($_POST['bbdd']) == 'Actualizar') {
+            $resultado="";
+            $this->insertarXML();
+            $this->mostrarbbdd($resultado);
+            exit();
+        }
 
         if ((isset($_POST['pagina']) && ($_POST['pagina']) == 'consulta') || (isset($_POST['consulta']) && $_POST['consulta'] == 'Consultar')) {
 
+            if (isset($_POST['fecha_consulta']) && isset($_POST['aula_consulta'])) {
+                $horasOcupadas = $this->consultarFecha($_POST['fecha_consulta'], $_POST['aula_consulta']);
+            } else {
+                $horasOcupadas = '';
+            }
 
-            $this->mostrarConsulta();
+            $this->mostrarConsulta($horasOcupadas);
+            exit();
         } else {
             if (!isset($_POST['enviar'])) // No se ha enviado el formulario
             {
@@ -44,11 +61,17 @@ class Controlador
     }
 
     //Metodo que muestra la página de consultas
-    private function mostrarConsulta()
+    private function mostrarConsulta($horasOcupadas)
     {
         //se muestra la vista del formulario (la plantilla form_consultas.php)   
         include 'views/form_consulta.php';
     }
+
+    private function mostrarbbdd($resultado)
+    {
+        include 'views/form_bbdd.php';
+    }
+
 
 
     private function crearReglasDeValidacion()
@@ -58,7 +81,7 @@ class Controlador
             "usuario" => array("min" => 8, "max" => 12, "numeric" => false, "required" => true),
             "aula" => array("value" => !null, "required" => true),
             "fecha" => array("min" => (date("Y-m-d")), "required" => true),
-            "hora-desde" => array("min" => "8:30", "max" => $_POST['hora-hasta'], "required" => true),
+            "hora-desde" => array("min" => "08:30", "max" => $_POST['hora-hasta'], "required" => true),
             "hora-hasta" => array("min" => $_POST['hora-desde'], "max" => "21:00", "required" => true)
         );
         return $reglasValidacion;
@@ -99,7 +122,7 @@ class Controlador
             $resultado .= "<br />";
 
             // Archivo importado
-            $archivoImportado = $_FILES['importar-archivo']['name'];
+            //$archivoImportado = $_FILES['importar-archivo']['name'];
 
             $this->registrar($validador);
             if ($validador->esValido()) {
@@ -131,13 +154,27 @@ class Controlador
     {
         $this->dao = new DaoReserva();
         $reserva = $this->crearReserva($_POST);
-
-
         $existeReserva = $this->dao->existeReserva($reserva);
         if (!$existeReserva) {
             $this->dao->insertarReserva($reserva);
         } else {
             $validador->addError("Reservada", "Aula ya reservada");
         }
+    }
+
+    private function consultarFecha($fecha, $aula)
+    {
+        $this->dao = new DaoReserva();
+        $consulta = $this->dao->consultarFechaAula($fecha, $aula);
+
+        return $consulta;
+    }
+
+    private function insertarXML()
+    {
+        $this->dao = new DaoReserva();
+        $archivoImportado = $_FILES['importar-archivo'];
+        move_uploaded_file($archivoImportado['tmp_name'], './bbdd/bbdd.xml');
+        $this->dao->insertarXML($archivoImportado);
     }
 }

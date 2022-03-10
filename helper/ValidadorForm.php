@@ -52,7 +52,7 @@ class ValidadorForm
                                     $this->addError($campo, "Debe ser mayor que " . $valorRegla);
                                 }
                             } else {
-                                if (strlen($campoAValidar) < $valorRegla) {
+                                if (strlen($campoAValidar) <= $valorRegla) {
                                     $this->addError($campo, "Debe ser mayor que " . $valorRegla);
                                 }
                             }

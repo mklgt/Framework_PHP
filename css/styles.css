@@ -233,12 +233,18 @@ cursor: pointer;
     background-color: var(--Rojo);
 }
 .ocupado:hover {
-    background-color: rgb(170, 19, 19);
+    background-color: rgb(245, 97, 97, 0.5);
 }
 
 .libre {
     background-color: var(--Verde);
 }
 .libre:hover {
-    background-color: rgb(59, 172, 59);
+    background-color: rgba(165, 248, 165, 0.5);
+}
+
+.libre a, .ocupado a {
+    text-decoration: none;
+    color: black;
+    padding-right: 95%;
 }

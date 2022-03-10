@@ -53,34 +53,32 @@ class DataBase implements IDataBase
 
     /**
      * Se le pasa como parámetros la conexion creada y el nombre de la base de datos a crear.
-     * @param  mixed $conexion
      * @param  object $db_name
      */
     //Función que crea la base de datos, recibe la conexión creada y el nombre de esta
-    public function createDb($conexion, $db_name)
+    public function createDb($db_name)
     {
         $create = "CREATE DATABASE IF NOT EXISTS $db_name";
-        $conexion->exec($create);
+        $this->conexion->ejecutarSql($create);
         $use = "USE $db_name";
-        $conexion->exec($use);
+        $this->conexion->ejecutarSql($use);
     }
 
     /**
      * Función que crea las tablas definidas anteriormente
-     * @param  mixed $conexion
-     * @param  tables $tables
      */
-    public function createTables($conexion, $tables)
+    public function createTables()
     {
+        $tables = $this->tables;
         foreach ($tables as $table => $campos) {
             foreach ($campos as $campo) {
                 if ($campo == "ID") {
-                    $conexion->query("CREATE TABLE IF NOT EXISTS $table ( $campo VARCHAR(4), PRIMARY KEY($campo) )");
+                    $this->conexion->query("CREATE TABLE IF NOT EXISTS $table ( $campo VARCHAR(4), PRIMARY KEY($campo) )");
                 } else if (($campo == "ASIG" && $table == "SOLUCF")) {
-                    $conexion->query("CREATE TABLE IF NOT EXISTS $table ( $campo VARCHAR(9) )");
+                    $this->conexion->query("CREATE TABLE IF NOT EXISTS $table ( $campo VARCHAR(9) )");
                 } else {
                     try {
-                        $conexion->query("ALTER TABLE $table ADD $campo VARCHAR(40)");
+                        $this->conexion->query("ALTER TABLE $table ADD $campo VARCHAR(40)");
                     } catch (Exception $ex) {
                         return;
                     }
@@ -199,8 +197,8 @@ class DataBase implements IDataBase
      */
     public function consultarInformacion()
     {
-        if (file_exists('bbdd/test.xml')) {
-            $xml = simplexml_load_file('bbdd/test.xml');
+        if (file_exists('bbdd/bbdd.xml')) {
+            $xml = simplexml_load_file('bbdd/bbdd.xml');
             $campos_registro = array();
             //$datos = ($xml->ASIGT);
             //$registros = ['ASIGF', 'NOMASIGF', 'PROFF', 'GRUPF', 'AULAF', 'MARCOSF', 'SOLUCF'];
@@ -378,34 +376,7 @@ class DataBase implements IDataBase
             //$consulta = "INSERT INTO asigf2 (ID, ASIG, AULA) VALUES (:id, :asig, :aula)";
 
         } else {
-            exit('Error abriendo test.xml.');
+            exit('Error abriendo el xml.');
         }
     }
-    /*public function ejecutarSqlActualizacionPRUEBA($sql, $args)
-{
-try {
-
-$resul = $this->conexion->prepare($sql);
-foreach ($args as $arg => $valor) {
-$resul->bindParam($arg, $valor, PDO::PARAM_STR, 50);
-}
-$resul->execute();
-//
-// if (!$resul) {
-// echo "
-
-//Error en la consulta.
-";
-// } else {
-// return $resul;
-// }
-var_dump($resul);
-return $resul;
-} catch (Exception $e) {
-echo "
-
-Error: " . $e->getMessage() . "
-\n";
-}
-}*/
 }
