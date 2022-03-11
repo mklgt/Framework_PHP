@@ -50,8 +50,8 @@ class DaoReserva
     {
         $this->db->conectar();
         try {
-            $sql = "INSERT INTO reservas (usuario, aula, fecha, horaDesde, horaHasta) VALUES (?, ?, ?, ?, ?)";
-            $args = array($reserva->getUsuario(), $reserva->getAula(), $reserva->getfecha(), $reserva->getHoraDesde(), $reserva->getHoraHasta());
+            $sql = "INSERT INTO reservas (usuario, aula, fecha, horaDesde, horaHasta, motivo) VALUES (?, ?, ?, ?, ?, ?)";
+            $args = array($reserva->getUsuario(), $reserva->getAula(), $reserva->getfecha(), $reserva->getHoraDesde(), $reserva->getHoraHasta(), $reserva->getMotivo());
             $this->db->ejecutarSqlActualizacion($sql, $args);
         } catch (Exception $ex) {
             echo "Error al reservar -> $ex->getMessage()";
@@ -68,26 +68,36 @@ class DaoReserva
         $sql = "SELECT horaDesde, horaHasta, usuario FROM reservas WHERE fecha = '$fecha' AND aula = '$aula'";
 
         // //$args = array($fecha, $aula);
-        // $horasTotales = ['08:30', '09:25', '10:20', '11:15', '11:45', '12:40', '13:35', '14:30', '15:25', '16:20', '17:15', '18:10', '19:05', '20:00', '21:00'];
+        $horasTotales = ['08:30', '09:25', '10:20', '11:15', '11:45', '12:40', '13:35', '14:30', '15:25', '16:20', '17:15', '18:10', '19:05', '20:00', '21:00'];
         $resultado = ($this->db->ejecutarSql($sql))->fetchAll();
         $horasOcupadas = array();
         $datosTotales = array();
-
         foreach ($resultado as $datos) {
             foreach ($datos as $dato) {
                 if (strlen($dato) > 8) {
                     $usuario = $dato;
                 } else {
+                    // Cambiar en clase
                     $hora = substr($dato, 0, -3);
+                    //$hora = $dato;
                     if (!in_array($hora, $horasOcupadas)) {
                         $horasOcupadas[] = $hora;
+                        if (!isset($inicio)) {
+                            $inicio = array_search($hora, $horasTotales);
+                        } else {
+                            $final = (array_search($hora, $horasTotales)) - ($inicio - 1) ;
+                            $horasDeshabilitadas = array_slice($horasTotales, $inicio, $final);
+                            array_pop($horasDeshabilitadas);
+                            $inicio = null;
+                        }
                     } 
                 }
             }
             $datosTotales[] = array(
                 "usuario" => $usuario,
-                "horasOcupadas" => $horasOcupadas
+                "horasOcupadas" => $horasDeshabilitadas
             );
+            $horasOcupadas = [];
         }
         
         return $datosTotales;

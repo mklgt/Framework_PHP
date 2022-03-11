@@ -70,6 +70,14 @@ class ValidadorForm
                             }
                             break;
 
+                        case "igual":
+                            if (strtotime($campoAValidar)) {
+                                if (strtotime($campoAValidar) == strtotime($valorRegla)) {
+                                    $this->addError($campo, "No puede ser igual a " . $valorRegla);
+                                }
+                            }
+                            break;
+
                         case 'value':
                             if (!($campoAValidar == $valorRegla)) {
                                 $this->addError($campo, "Debe tener más de " . $valorRegla . " carácteres");

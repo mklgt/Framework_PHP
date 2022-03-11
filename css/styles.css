@@ -43,6 +43,11 @@ h3 {
 margin: 0;
 }
 
+h1 a {
+    text-decoration: none;
+    color: var(--Negro);
+}
+
 /* El logo flota a la izquierda */
 
 img {
@@ -246,5 +251,22 @@ cursor: pointer;
 .libre a, .ocupado a {
     text-decoration: none;
     color: black;
-    padding-right: 95%;
+    padding-right: 75%;
+}
+
+.ocupado a {
+    padding-right: 0;
+}
+
+input[type=submit].cerrar-sesion {
+    width: auto;
+    position: absolute;
+    top: 25px;
+    right: 10px;
+    background-color: var(--GrisClaro);
+}
+
+input[type=submit].cerrar-sesion:hover {
+    background-color: var(--Negro);
+    color: var(--ColorPrincipal);
 }

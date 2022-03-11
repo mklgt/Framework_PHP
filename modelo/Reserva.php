@@ -7,14 +7,16 @@ class Reserva
     private $fecha;
     private $horaDesde;
     private $horaHasta;
+    private $motivo;
 
-    public function __construct($usuario, $aula, $fecha, $horaDesde, $horaHasta)
+    public function __construct($usuario, $aula, $fecha, $horaDesde, $horaHasta, $motivo)
     {
         $this->usuario = $usuario;
         $this->aula = $aula;
         $this->fecha = $fecha;
         $this->horaDesde = $horaDesde;
         $this->horaHasta = $horaHasta;
+        $this->motivo = $motivo;
     }
 
 
@@ -44,6 +46,11 @@ class Reserva
         return $this->horaHasta;
     }
 
+    public function getMotivo()
+    {
+        return $this->motivo;
+    }
+
 
     //SETTERS
     public function setUsuario($usuario)
@@ -69,5 +76,10 @@ class Reserva
     public function setHoraHasta($horaHasta)
     {
         $this->horaHasta = $horaHasta;
+    }
+
+    public function setMotivo($motivo)
+    {
+        $this->motivo = $motivo;
     }
 }

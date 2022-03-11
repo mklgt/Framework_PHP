@@ -21,10 +21,10 @@ if (Input::siEnviado()) {
         <div class='uno'>
             <label>
                 Usuario
-                <input type="text" name="usuario" minlength="8" maxlength="12" value="agonzalgam1"
+                <input type="text" name="usuario" minlength="8" maxlength="12" 
                 <?php
-                if (isset($_POST['usuario'])) {
-                    echo "value=" . Input::filtrarDato('usuario');    
+                if (isset($_SESSION['usuario'])) {
+                    echo "value= " . $_SESSION['usuario'];    
                 }                               
                 
                 ?>
@@ -57,7 +57,7 @@ if (Input::siEnviado()) {
                         echo "value = $fecha_seleccionada";
                     }
                     $diaActual = "20" . date('y-m-d');
-                    echo " min=$diaActual value='2022-03-25'>";
+                    echo " min=$diaActual value=$diaActual>";
                     
                     ?>
                 </label>
@@ -102,7 +102,7 @@ if (Input::siEnviado()) {
             <label>
                 Motivo:
                 <br>
-                <textarea id="motivo" name="motivo" rows="7" cols="100" placeholder="Esciba el motivo de su reserva..."></textarea>
+                <textarea id="motivo" name="motivo" rows="7" cols="100" placeholder="Esciba el motivo de su reserva..." required><?php if (isset($_POST['motivo'])) { echo Input::filtrarDato('motivo');}?></textarea>
             </label>
             <input id="submit" type="submit" name="enviar" 
             <?php

@@ -9,9 +9,17 @@ include "header.php";
     <div>
         <div class='uno'>
             <div class="horario">
-                <label for="fecha">
+                <label for="fecha_consulta">
                     Fecha:
-                    <input type="date" id="fecha_consulta" name="fecha_consulta" value="2022-03-31">
+                    <input type="date" id="fecha_consulta" name="fecha_consulta"
+                    <?php
+                    if (isset($_GET['fecha_seleccionada'])) {
+                        $fecha_seleccionada = $_GET['fecha_seleccionada'];
+                        echo "value = $fecha_seleccionada";
+                    }
+                    $diaActual = "20" . date('y-m-d');
+                    echo " min=$diaActual value=$diaActual>";
+                    ?>
                 </label>
                 <br />
                 <div class="horas">
@@ -43,9 +51,6 @@ if (isset($_POST['aula_consulta']) && isset($_POST['fecha_consulta'])) {
     $aula_consulta = $_POST['aula_consulta'];
     $fecha_consulta = $_POST['fecha_consulta'];
 }
-echo "<pre>";
-print_r($datosTotales);
-echo "</pre>";
 
 
 if (isset($_POST['aula_consulta'])) {
@@ -55,17 +60,24 @@ if (isset($_POST['aula_consulta'])) {
 
     echo "<div class='calendario'/>";
     foreach ($horas as $hora) {
+        $ocupada = false;
+        $clase = 'libre';
         foreach ($datosTotales as $datos) {
-        $usuario = $datos['usuario'];
-        $horasOcupadas = $datos['horasOcupadas'];
-
-        if (in_array($hora, $horasOcupadas)) {
-            $clase = 'ocupado';      
-        } else {
-            $clase = 'libre';
+            $usuario = $datos['usuario'];
+            $horasOcupadas = $datos['horasOcupadas'];
+            if (in_array($hora, $horasOcupadas)) {
+                $clase = 'ocupado';  
+                // Poner una alerta cuando clicka    
+                echo "<p class='$clase' id='clase-ocupada'><a>$hora - Reservada por: $usuario</a></p>";
+                $ocupada = true;
+            } else {
+                $clase = 'libre';
+            }
         }
-    }
-        echo "<p class='$clase'><a href='index.php?hora_seleccionada=$hora&&fecha_seleccionada=$fecha_consulta&&aula_seleccionada=$aula_consulta'>$hora</a></p>";
+        if (!$ocupada) {
+            echo "<p class='$clase'><a href='index.php?hora_seleccionada=$hora&&fecha_seleccionada=$fecha_consulta&&aula_seleccionada=$aula_consulta'>$hora - Disponible</a></p>";
+        }
+        
     }
     echo "</div>";
 }
