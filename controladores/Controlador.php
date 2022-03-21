@@ -215,6 +215,7 @@ class Controlador
             $mail->isSMTP();
             $mail->Host       = 'smtp.gmail.com';
             $mail->SMTPAuth   = true;
+            //TODO Cambiar a jefe de estuidos
             $mail->Username   = 'goikoetxeamikel85@gmail.com';
             $mail->Password   = 'umsxcakixblkkfwr';
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
