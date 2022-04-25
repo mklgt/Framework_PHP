@@ -216,13 +216,14 @@ class Controlador
             $mail->Host       = 'smtp.gmail.com';
             $mail->SMTPAuth   = true;
             //TODO Cambiar a jefe de estuidos
-            $mail->Username   = 'goikoetxeamikel85@gmail.com';
-            $mail->Password   = 'umsxcakixblkkfwr';
+            $mail->Username   = 'agonzalgam1@educacion.navarra.es';
+            $mail->Password   = 'tmgiuusllhdxnkie';
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
             $mail->Port       = 465;
 
-            $mail->setFrom('asiergonzalez0@gmail.com', 'Asier');
-            $mail->addAddress($datos['usuario'] . '@educacion.navarra.es', 'Usuario');             
+            $mail->setFrom('agonzalgam1@educacion.navarra.es', 'María Ana Sanz');
+            //$mail->addAddress($datos['usuario'] . '@educacion.navarra.es', 'Usuario');             
+            $mail->addAddress('agonzalgam1@educacion.navarra.es', 'Usuario');
             //$mail->addCC('jefeestudios@mariaanasanz.es'); Copia a Jefatura de estudios
             $mail->addCC('agonzalgam1@educacion.navarra.es');
             //$mail->addCC('agonzalgam1@educacion.navarra.es');
