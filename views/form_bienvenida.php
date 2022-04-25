@@ -6,7 +6,7 @@ include "header.php";
 if (Input::siEnviado()) {
     $errores = $validador->getErrores();
     if (!empty($errores)) {
-        echo "<div class='error'>";
+        echo "<div class='bg-danger w-75 p-3 mx-auto mt-3 fw-bold rounded'>";
         foreach ($errores as $campo => $mensaje) {
             echo "<p>".$validador->getMensajeError($campo)."</p>\n";
         }
@@ -18,10 +18,10 @@ if (Input::siEnviado()) {
 <form id="form" action="index.php" method="post" enctype="multipart/form-data">
 
     <div>
-        <div class='uno'>
-            <label>
+        <div class='bg-secundario mt-4 rounded w-75 mx-auto p-3 fs-6 mb-5'>
+            <label class="w-100 mt-2">
                 Usuario
-                <input type="text" name="usuario" minlength="8" maxlength="12" 
+                <input class="w-100 rounded border-0 p-1 mt-1" type="text" name="usuario" minlength="8" maxlength="12" 
                 <?php
                 if (isset($_SESSION['usuario'])) {
                     echo "value= " . $_SESSION['usuario'];    
@@ -31,8 +31,8 @@ if (Input::siEnviado()) {
                 >
             </label>
             <br>
-            <label>Aula
-                <select name='aula'>
+            <label class="w-100 mt-3">Aula
+                <select name='aula' class="w-100 rounded border-0 p-1 mt-1">
                     <?php
                     $aulas = ["A01", "A02", "A03", "A04", "A05", "A06"];
                     foreach ($aulas as $aula) {
@@ -47,10 +47,10 @@ if (Input::siEnviado()) {
                     }
                     ?>
                 </select><br /></label>
-            <div class="horario">
+            <div class="bg-principal mt-3 p-3 rounded">
             <label for="fecha">
                     Fecha:
-                    <input type="date" id="fecha" name="fecha"
+                    <input class="rounded border-0 p-1 mt-1" type="date" id="fecha" name="fecha"
                     <?php
                     if (isset($_GET['fecha_seleccionada'])) {
                         $fecha_seleccionada = $_GET['fecha_seleccionada'];
@@ -62,10 +62,10 @@ if (Input::siEnviado()) {
                     ?>
                 </label>
                 <br />
-                <div class="horas">
+                <div class="mt-3">
                 <label>
                         Desde
-                        <select name='hora-desde'>
+                        <select class="mx-2 rounded border-0 p-1" name='hora-desde'>
                     <?php
                     $horas = ['08:30', '09:25', '10:20', '11:15', '11:45', '12:40', '13:35', '14:30', '15:25', '16:20', '17:15', '18:10', '19:05', '20:00', '21:00'];
                     foreach ($horas as $hora) {
@@ -84,7 +84,7 @@ if (Input::siEnviado()) {
                     </label>
                     <label>
                         Hasta
-                        <select name='hora-hasta'>
+                        <select class="mx-2 rounded border-0 p-1" name='hora-hasta'>
                         <?php
                         $horas = ['08:30', '09:25', '10:20', '11:15', '11:45', '12:40', '13:35', '14:30', '15:25', '16:20', '17:15', '18:10', '19:05', '20:00', '21:00'];
                         foreach ($horas as $hora) {
@@ -99,12 +99,12 @@ if (Input::siEnviado()) {
                 
             </div>
             <br>
-            <label>
+            <label class="w-100">
                 Motivo:
                 <br>
-                <textarea id="motivo" name="motivo" rows="7" cols="100" placeholder="Esciba el motivo de su reserva..." required><?php if (isset($_POST['motivo'])) { echo Input::filtrarDato('motivo');}?></textarea>
+                <textarea id="motivo" class="w-100 rounded border-0 p-1 mt-1" name="motivo" rows="7" cols="100" placeholder="Esciba el motivo de su reserva..." required><?php if (isset($_POST['motivo'])) { echo Input::filtrarDato('motivo');}?></textarea>
             </label>
-            <input id="submit" type="submit" name="enviar" 
+            <input id="submit" class="btn btn-success w-100 p-2 mt-3" type="submit" name="enviar" 
             <?php
             echo "value=$fase />";
             ?>
@@ -114,7 +114,7 @@ if (Input::siEnviado()) {
 <?php
 
 if (isset($resultado)) {
-    echo "<div class='resultado'/>";
+    echo "<div class='border-grisClaro mt-3 p-2 rounded'/>";
     echo $resultado;
     echo "</div>";
 }

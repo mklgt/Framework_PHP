@@ -221,10 +221,10 @@ class Controlador
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
             $mail->Port       = 465;
 
-            $mail->setFrom('goikoetxeamikel85@gmail.com', 'Mikel');
+            $mail->setFrom('asiergonzalez0@gmail.com', 'Asier');
             $mail->addAddress($datos['usuario'] . '@educacion.navarra.es', 'Usuario');             
             //$mail->addCC('jefeestudios@mariaanasanz.es'); Copia a Jefatura de estudios
-            $mail->addCC('mgoicoeoca@educacion.navarra.es');
+            $mail->addCC('agonzalgam1@educacion.navarra.es');
             //$mail->addCC('agonzalgam1@educacion.navarra.es');
 
             //Content

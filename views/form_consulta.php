@@ -6,12 +6,12 @@ include "header.php";
 
 
 <form id="formConsulta" action="index.php" method="post">
-    <div>
-        <div class='uno'>
+    <div class='bg-secundario mt-4 rounded w-75 mx-auto p-3 fs-6 mb-5'>
+        <div class="bg-principal p-3 rounded">
             <div class="horario">
                 <label for="fecha_consulta">
                     Fecha:
-                    <input type="date" id="fecha_consulta" name="fecha_consulta"
+                    <input type="date" class="w-100 rounded border-0 p-1 mt-1" id="fecha_consulta" name="fecha_consulta"
                     <?php
                     if (isset($_GET['fecha_seleccionada'])) {
                         $fecha_seleccionada = $_GET['fecha_seleccionada'];
@@ -22,10 +22,10 @@ include "header.php";
                     ?>
                 </label>
                 <br />
-                <div class="horas">
+                <div class="mt-3">
                     <label for="fecha">
                         Clase:
-                        <select name='aula_consulta'>
+                        <select name='aula_consulta' class="w-100 rounded border-0 p-1 mt-1">
                             <?php
                             $aulas = ["A01", "A02", "A03", "A04", "A05", "A06"];
                             foreach ($aulas as $aula) {
@@ -39,7 +39,7 @@ include "header.php";
                 </div>
             </div>
         </div>
-        <input id="submit" type="submit" name="consulta" value="Consultar" />
+        <input id="submit" class="btn btn-secondary w-100 p-2 mt-3" type="submit" name="consulta" value="Consultar" />
 
     </div>
 
@@ -54,11 +54,11 @@ if (isset($_POST['aula_consulta']) && isset($_POST['fecha_consulta'])) {
 
 
 if (isset($_POST['aula_consulta'])) {
-    echo "<h1>Clase: $aula_consulta</h1>";
-    echo "<h1>Día: $fecha_consulta</h1>";
+    echo "<h1 class='text-center'>Clase: $aula_consulta</h1>";
+    echo "<h1 class='text-center'>Día: $fecha_consulta</h1>";
     $horas = ['08:30', '09:25', '10:20', '11:15', '11:45', '12:40', '13:35', '14:30', '15:25', '16:20', '17:15', '18:10', '19:05', '20:00', '21:00'];
 
-    echo "<div class='calendario'/>";
+    echo "<div class='bg-grisClaro w-75 mx-auto p-3 mb-3 rounded border border-dark border-2'/>";
     foreach ($horas as $hora) {
         $ocupada = false;
         $clase = 'libre';
@@ -68,14 +68,14 @@ if (isset($_POST['aula_consulta'])) {
             if (in_array($hora, $horasOcupadas)) {
                 $clase = 'ocupado';  
                 // Poner una alerta cuando clicka    
-                echo "<p class='$clase' id='clase-ocupada'><a>$hora - Reservada por: $usuario</a></p>";
+                echo "<p class='$clase p-1 rounded fw-bold' id='clase-ocupada'><a>$hora - Reservada por: $usuario</a></p>";
                 $ocupada = true;
             } else {
                 $clase = 'libre';
             }
         }
         if (!$ocupada) {
-            echo "<p class='$clase'><a href='index.php?hora_seleccionada=$hora&&fecha_seleccionada=$fecha_consulta&&aula_seleccionada=$aula_consulta'>$hora - Disponible</a></p>";
+            echo "<p class='$clase p-1 rounded fw-bold'><a class='text-decoration-none text-black pr-75' href='index.php?hora_seleccionada=$hora&&fecha_seleccionada=$fecha_consulta&&aula_seleccionada=$aula_consulta'>$hora - Disponible</a></p>";
         }
         
     }
