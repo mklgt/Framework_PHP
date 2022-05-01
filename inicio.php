@@ -8,11 +8,9 @@
     echo "<h2>Sesion iniciada</h2>";
     session_start();
 
-    if (isset($_POST['usuario'])) {
-        $_SESSION['usuario'] = $_POST['usuario'];          
-    }
-    if (isset($_POST['contraseña'])) {
-        $_SESSION['contraseña'] = $_POST['contraseña'];        
+    if (isset($_POST['usuario']) && isset($_POST['contraseña'])) {
+        $_SESSION['usuario'] = $_POST['usuario']; 
+        $_SESSION['contraseña'] = $_POST['contraseña'];           
     }
 
     header("Location: index.php");

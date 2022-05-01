@@ -44,9 +44,16 @@ class Controlador
             exit();
         } else {
             //session_start();
-            if (!isset($_SESSION['contraseña'])) {
-                $this->mostrarLogin();
+            if (empty($_SESSION['contraseña']) || empty($_SESSION['usuario'])) {
+                $this->mostrarLogin("");
                 exit();
+            } else {
+                $usuario = $_SESSION['usuario'];
+                $contraseña = $_SESSION['contraseña'];
+                if (!$this->comprobarDatosSesion($usuario, $contraseña)) {
+                    $this->mostrarLogin("Usuario y/o contraseña incorrectos");
+                    exit();
+                }
             }
 
             if (!isset($_POST['enviar'])) // No se ha enviado el formulario
@@ -70,7 +77,7 @@ class Controlador
     }
 
     // Metodo que muestra la pantalla de login
-    private function mostrarLogin()
+    private function mostrarLogin($errorLogin)
     {
         //se muestra la vista del formulario (la plantilla login.php)   
         include 'views/login.php';
@@ -95,6 +102,18 @@ class Controlador
         include 'views/form_bbdd.php';
     }
 
+    private function comprobarDatosSesion($usuario, $contraseña)
+    {
+        $this->dao = new DaoReserva();
+        $consulta = $this->dao->comprobarSesion($usuario, $contraseña);
+
+        return $consulta;
+        // if ($usuario == "Asier" && $contraseña == "asi") {
+        //     return true;
+        // }
+
+        //return false;
+    }
 
 
     private function crearReglasDeValidacion()

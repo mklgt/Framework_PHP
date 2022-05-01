@@ -21,6 +21,9 @@ SET time_zone = "+00:00";
 -- Base de datos: `bdaulaweb`
 --
 
+CREATE DATABASE IF NOT EXISTS `bdaulaweb`;
+USE `bdaulaweb`;
+
 DELIMITER $$
 --
 -- Procedimientos
@@ -30,6 +33,26 @@ SELECT COUNT(*) FROM reservas WHERE (aula = aulaRes AND fecha = fechaRes) AND ((
 END$$
 
 DELIMITER ;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `asigf`
+--
+
+CREATE TABLE `sesiones` (
+  `usuario` varchar(13) COLLATE utf8_unicode_ci NOT NULL,
+  `contraseña` varchar(30) COLLATE utf8_unicode_ci DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `sesiones`
+--
+
+INSERT INTO `sesiones` (`usuario`, `contraseña`) VALUES
+('agonzalgam1', 'prueba'),
+('jefeestudios', '1234'),
+('carocena23', 'carocena23');
 
 -- --------------------------------------------------------
 
@@ -4466,6 +4489,13 @@ INSERT INTO `solucf` (`ASIG`, `DIA`, `GRUPO`, `HORA`, `NIVEL`, `PROF`, `SESIONES
 --
 -- Índices para tablas volcadas
 --
+
+--
+-- Indices de la tabla `sesiones`
+--
+ALTER TABLE `sesiones`
+  ADD PRIMARY KEY (`usuario`);
+
 
 --
 -- Indices de la tabla `asigf`

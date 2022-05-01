@@ -16,6 +16,18 @@ class DaoReserva
         $this->db = new DataBase();
     }
 
+    public function comprobarSesion($usuario, $contraseña)
+    {
+        $this->db->conectar();
+        $sql = "SELECT * FROM sesiones WHERE usuario = '$usuario' AND contraseña = '$contraseña'";
+        $resultado = ($this->db->ejecutarSql($sql))->fetchAll();
+        if (!empty($resultado)) {
+            return true;
+        }
+        return false;
+    }
+
+
      /**
      * Recibe la reserva y simplemente hace una conulta de tipo INSERT
      * @param  Reserva $reserva

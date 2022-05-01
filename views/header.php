@@ -28,8 +28,8 @@
         <button type="submit" name="pagina" value="consulta" class="btn btn-outline-secondary border-0 rounded-0 fs-6 p-3">Consultar Aula</button>
             <button type="submit" name="pagina" value="formulario" class="btn btn-outline-secondary border-0 rounded-0 fs-6 p-3">Reservar</button>
             <?php 
-            if($_SESSION['usuario']=="jefeestudios"){
-            echo '<button type="submit" name="pagina" value="bbdd" class="btn-link">Base de Datos</button>';}?>
+            if(isset($_SESSION['usuario']) && $_SESSION['usuario']=="jefeestudios"){
+            echo '<button type="submit" name="pagina" value="bbdd" class="btn btn-outline-secondary border-0 rounded-0 fs-6 p-3">Base de Datos</button>';}?>
         </form>
     </nav>
 
