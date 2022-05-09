@@ -5,7 +5,6 @@
     <title>Reservar AULA</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    
     <link rel="stylesheet" type="text/css" href="css/styles.css">
     <link rel="icon" type="image/x-icon" href="./img/favicon.ico">
 </head>
@@ -27,6 +26,7 @@
         <form id="formPag" action="index.php" method="post">
         <button type="submit" name="pagina" value="consulta" class="btn btn-outline-secondary border-0 rounded-0 fs-6 p-3">Consultar Aula</button>
             <button type="submit" name="pagina" value="formulario" class="btn btn-outline-secondary border-0 rounded-0 fs-6 p-3">Reservar</button>
+            <button type="submit" name="pagina" value="editar" class="btn btn-outline-secondary border-0 rounded-0 fs-6 p-3">Editar reservas</button>
             <?php 
             if(isset($_SESSION['usuario']) && $_SESSION['usuario']=="jefeestudios"){
             echo '<button type="submit" name="pagina" value="bbdd" class="btn btn-outline-secondary border-0 rounded-0 fs-6 p-3">Base de Datos</button>';}?>

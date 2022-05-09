@@ -25,6 +25,16 @@ class Controlador
             exit();
         }
 
+        if ((isset($_POST['pagina']) && ($_POST['pagina']) == 'editar') || (isset($_POST['eliminar']) && $_POST['eliminar'] == 'Eliminar')) {
+            if (isset($_POST['eliminar']) && $_POST['eliminar'] == 'Eliminar') {
+                $this->eliminarReserva($_POST['idReserva']);
+                $_POST['eliminar'] = "";
+            }
+            $reservasUsuario = $this->mostrarReservasRealizadas('agonzalgam1');
+            $this->mostrarEditarReservas($reservasUsuario);
+            exit();
+        }
+
         if (isset($_POST['bbdd']) && ($_POST['bbdd']) == 'Actualizar') {
             $resultado = "";
             $this->insertarXML();
@@ -97,6 +107,13 @@ class Controlador
         include 'views/form_consulta.php';
     }
 
+    //Metodo que muestra la página de edición de reservas
+    private function mostrarEditarReservas($reservasUsuario)
+    {
+        //se muestra la vista plantilla editar_reservas.php 
+        include 'views/editar_reservas.php';
+    }
+
     private function mostrarbbdd($resultado)
     {
         include 'views/form_bbdd.php';
@@ -108,11 +125,19 @@ class Controlador
         $consulta = $this->dao->comprobarSesion($usuario, $contraseña);
 
         return $consulta;
-        // if ($usuario == "Asier" && $contraseña == "asi") {
-        //     return true;
-        // }
+    }
 
-        //return false;
+    private function mostrarReservasRealizadas($usuario)
+    {
+        $this->dao = new DaoReserva();
+        $consulta = $this->dao->mostrarReservas($usuario);
+        return $consulta;
+    }
+
+    private function eliminarReserva($id)
+    {
+        $this->dao = new DaoReserva();
+        $this->dao->eliminarReserva($id);
     }
 
 
@@ -240,7 +265,7 @@ class Controlador
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
             $mail->Port       = 465;
 
-            $mail->setFrom('agonzalgam1@educacion.navarra.es', 'María Ana Sanz');
+            $mail->setFrom('agonzalgam1@educacion.navarra.es', 'Maria Ana Sanz');
             //$mail->addAddress($datos['usuario'] . '@educacion.navarra.es', 'Usuario');             
             $mail->addAddress('agonzalgam1@educacion.navarra.es', 'Usuario');
             //$mail->addCC('jefeestudios@mariaanasanz.es'); Copia a Jefatura de estudios

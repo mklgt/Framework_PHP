@@ -27,6 +27,22 @@ class DaoReserva
         return false;
     }
 
+    public function mostrarReservas($usuario)
+    {
+        $this->db->conectar();
+        $sql = "SELECT id, aula, fecha, horaDesde, horaHasta, motivo FROM reservas WHERE usuario = '$usuario'";
+        $resultado = ($this->db->ejecutarSql($sql))->fetchAll();
+
+        return $resultado;
+    }
+
+    public function eliminarReserva($id)
+    {
+        $this->db->conectar();
+        $sql = "DELETE FROM reservas WHERE id = '$id'";
+        $this->db->ejecutarSql($sql);
+    }
+
 
      /**
      * Recibe la reserva y simplemente hace una conulta de tipo INSERT
