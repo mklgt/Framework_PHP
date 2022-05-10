@@ -30,8 +30,17 @@ class Controlador
                 $this->eliminarReserva($_POST['idReserva']);
                 $_POST['eliminar'] = "";
             }
-            $reservasUsuario = $this->mostrarReservasRealizadas('agonzalgam1');
+            $reservasUsuario = $this->mostrarReservasRealizadas($_SESSION['usuario']);
             $this->mostrarEditarReservas($reservasUsuario);
+            exit();
+        }
+        if ((isset($_POST['pagina']) && ($_POST['pagina']) == 'todasReservas') || (isset($_POST['eliminar']) && $_POST['eliminar'] == 'Eliminar')) {
+            if (isset($_POST['eliminar']) && $_POST['eliminar'] == 'Eliminar') {
+                $this->eliminarReserva($_POST['idReserva']);
+                $_POST['eliminar'] = "";
+            }
+            $reservasUsuario = $this->mostrarReservasRealizadas("*");
+            $this->mostrarTodasReservas($reservasUsuario);
             exit();
         }
 
@@ -112,6 +121,11 @@ class Controlador
     {
         //se muestra la vista plantilla editar_reservas.php 
         include 'views/editar_reservas.php';
+    }
+
+    private function mostrarTodasReservas($reservasUsuario)
+    {
+        include 'views/todas_reservas.php';
     }
 
     private function mostrarbbdd($resultado)
@@ -265,7 +279,7 @@ class Controlador
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
             $mail->Port       = 465;
 
-            $mail->setFrom('agonzalgam1@educacion.navarra.es', 'Maria Ana Sanz');
+            $mail->setFrom('agonzalgam1@educacion.navarra.es', 'Reserva de aulas');
             //$mail->addAddress($datos['usuario'] . '@educacion.navarra.es', 'Usuario');             
             $mail->addAddress('agonzalgam1@educacion.navarra.es', 'Usuario');
             //$mail->addCC('jefeestudios@mariaanasanz.es'); Copia a Jefatura de estudios

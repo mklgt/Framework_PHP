@@ -5,11 +5,12 @@ include "header.php";
 ?>
 
 <div class='bg-secundario mt-4 rounded w-75 mx-auto p-3 fs-6 mb-5'>
-    <p class="h3 text-center">Reservas realizadas</p>
+    <p class="h3 text-center">Reservas realizadas por el profesorado</p>
     <table class="table">
         <thead>
             <tr>
             <th scope="col">ID</th>
+            <th scope="col">Usuario</th>
             <th scope="col">Aula</th>
             <th scope="col">Fecha</th>
             <th scope="col">Hora inicio</th>

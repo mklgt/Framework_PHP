@@ -30,7 +30,12 @@ class DaoReserva
     public function mostrarReservas($usuario)
     {
         $this->db->conectar();
-        $sql = "SELECT id, aula, fecha, horaDesde, horaHasta, motivo FROM reservas WHERE usuario = '$usuario'";
+        if ($usuario == "*") {
+            $sql = "SELECT id, usuario, aula, fecha, horaDesde, horaHasta, motivo FROM reservas";
+        } else {
+            $sql = "SELECT id, aula, fecha, horaDesde, horaHasta, motivo FROM reservas WHERE usuario = '$usuario'";
+        }
+        
         $resultado = ($this->db->ejecutarSql($sql))->fetchAll();
 
         return $resultado;
