@@ -17,8 +17,8 @@ class Controlador
 
     public function run()
     {
-        //$db = new DataBase();
-        //$db->conectar();
+        header('Cache-Control: no cache');
+        session_cache_limiter('private_no_expire');
         session_start();
         if (isset($_POST['pagina']) && ($_POST['pagina']) == 'bbdd') {
             $this->mostrarbbdd(null);
@@ -34,6 +34,7 @@ class Controlador
             $this->mostrarEditarReservas($reservasUsuario);
             exit();
         }
+        
         if ((isset($_POST['pagina']) && ($_POST['pagina']) == 'todasReservas') || (isset($_POST['eliminar']) && $_POST['eliminar'] == 'Eliminar')) {
             if (isset($_POST['eliminar']) && $_POST['eliminar'] == 'Eliminar') {
                 $this->eliminarReserva($_POST['idReserva']);
@@ -58,8 +59,9 @@ class Controlador
             } else {
                 $datosTotales = '';
             }
-
-            $this->mostrarConsulta($datosTotales);
+            $aulas = $this->mostrarAulas();
+            $horas = $this->mostrarHoras();
+            $this->mostrarConsulta($aulas, $horas, $datosTotales);
             exit();
         } else {
             //session_start();
@@ -75,11 +77,13 @@ class Controlador
                 }
             }
 
+            $aulas = $this->mostrarAulas();
+            $horas = $this->mostrarHoras();
+
             if (!isset($_POST['enviar'])) // No se ha enviado el formulario
             {
                 // Se llama al método para mostrar el formulario inicial pasando un argumento sin valor como resultado
-                $this->mostrarFormulario("Reservar", null, null);
-                //$this->mostrarConsulta(null);
+                $this->mostrarFormulario($aulas, $horas, "Reservar", null, null);
                 exit();
             }
             if (isset($_POST['enviar']) && ($_POST['enviar']) == 'Reservar') {
@@ -88,9 +92,9 @@ class Controlador
                 exit();
             }
             if (isset($_POST['enviar']) && ($_POST['enviar']) == 'Continuar') {
-
+                $mensaje = '<div class="bg-success border-grisClaro mt-3 p-2 rounded text-center text-light fw-bold"><p class="h3">Reserva realizada</p></div>';
                 unset($_POST);
-                $this->mostrarFormulario('Reservar', null, null);
+                $this->mostrarFormulario($aulas, $horas, 'Reservar', null, $mensaje);
             }
         }
     }
@@ -103,16 +107,16 @@ class Controlador
     }
 
     // Metodo que muestra el formulario
-    private function mostrarFormulario($fase, $validador, $resultado)
+    private function mostrarFormulario($aulas, $horas, $fase, $validador, $resultado)
     {
-        //se muestra la vista del formulario (la plantilla form_bienvenida.php)   
+        //se muestra la vista del formulario (la plantilla form_bienvenida.php)
         include 'views/form_bienvenida.php';
     }
 
     //Metodo que muestra la página de consultas
-    private function mostrarConsulta($datosTotales)
+    private function mostrarConsulta($aulas, $horas, $datosTotales)
     {
-        //se muestra la vista del formulario (la plantilla form_consultas.php)   
+        //se muestra la vista del formulario (la plantilla form_consultas.php)
         include 'views/form_consulta.php';
     }
 
@@ -123,11 +127,13 @@ class Controlador
         include 'views/editar_reservas.php';
     }
 
+    //Metodo que muestra la página con todas las reservas de usuarios
     private function mostrarTodasReservas($reservasUsuario)
     {
         include 'views/todas_reservas.php';
     }
 
+    //Metodo que muestra la página pra insertar XML
     private function mostrarbbdd($resultado)
     {
         include 'views/form_bbdd.php';
@@ -137,8 +143,39 @@ class Controlador
     {
         $this->dao = new DaoReserva();
         $consulta = $this->dao->comprobarSesion($usuario, $contraseña);
-
         return $consulta;
+    }
+
+    private function mostrarAulas()
+    {
+        $this->dao = new DaoReserva();
+        $consulta = $this->dao->consultarAulas();
+        $todasAulas = [];
+        foreach ($consulta as $aulas => $aula) {
+            foreach ($aula as $valor) {
+                if (!in_array($valor, $todasAulas)) {
+                    $todasAulas[] = $valor; 
+                }                
+            }
+        }
+        return $todasAulas;
+    }
+
+    private function mostrarHoras()
+    {
+        $this->dao = new DaoReserva();
+        $consulta = $this->dao->consultarHoras();
+        $todasHoras = [];
+        foreach ($consulta as $horas => $hora) {
+            foreach ($hora as $valor) {
+                $valor = substr($valor, 0, -3);
+                if (!in_array($valor, $todasHoras)) {
+                    $todasHoras[] = $valor; 
+                }                
+            }
+        }
+        asort($todasHoras);
+        return $todasHoras;
     }
 
     private function mostrarReservasRealizadas($usuario)
@@ -157,13 +194,13 @@ class Controlador
 
     private function crearReglasDeValidacion()
     {
-
+        $aulas = $this->mostrarAulas();
         $reglasValidacion = array(
             "usuario" => array("min" => 8, "max" => 12, "numeric" => false, "required" => true),
-            "aula" => array("value" => !null, "required" => true),
+            "aula" => array("value" => !null, "valido" => $aulas, "required" => true),
             "fecha" => array("min" => (date("Y-m-d")), "required" => true),
-            "hora-desde" => array("min" => "08:30", "max" => $_POST['hora-hasta'], "igual" => $_POST['hora-hasta'], "required" => true),
-            "hora-hasta" => array("min" => $_POST['hora-desde'], "max" => "21:00", "required" => true),
+            "hora-desde" => array("min" => "08:10", "max" => $_POST['hora-hasta'], "igual" => $_POST['hora-hasta'], "required" => true),
+            "hora-hasta" => array("min" => $_POST['hora-desde'], "max" => "19:40", "required" => true),
             "motivo" => array("required" => true),
         );
         return $reglasValidacion;
@@ -171,15 +208,18 @@ class Controlador
 
     private function validar()
     {
+        $aulas = $this->mostrarAulas();
+        $horas = $this->mostrarHoras();
         $validador = new ValidadorForm();
         $reglasValidacion = $this->crearReglasDeValidacion();
+
         $validador->validar($_POST, $reglasValidacion);
         if ($validador->esValido()) {
             //Formulario correcto, recoge datos y los
             //vuelve a mostrar con el resultado correcto
             // Resultado es la variable que guarda toda la información del formulario
 
-            $resultado = "<h3>Datos de reserva:</h3> <br>";
+            $resultado = "<div class='border-grisClaro mt-3 p-2 rounded'/><h3>Datos de reserva:</h3> <br>";
 
             // Campo de Usuario
             $usuario = $_POST['usuario'];
@@ -205,24 +245,21 @@ class Controlador
             $motivo = $_POST['motivo'];
             $resultado .= "·Motivo: $motivo";
 
-            $resultado .= "<br />";
-
-            // Archivo importado
-            //$archivoImportado = $_FILES['importar-archivo']['name'];
-
+            $resultado .= "<br /></div>";
+            
             $this->registrar($validador);
             if ($validador->esValido()) {
                 $this->enviarCorreo($_POST);
-                $this->mostrarFormulario("Continuar", $validador, $resultado);
+                $this->mostrarFormulario($aulas, $horas, "Continuar", $validador, $resultado);
             } else {
-                $this->mostrarFormulario("Reservar", $validador, null);
+                $this->mostrarFormulario($aulas, $horas, "Reservar", $validador, null);
             }
 
             exit();
         }
 
         //Formulario incorrecto, mostrarlo con los errores
-        $this->mostrarFormulario("Reservar", $validador, null);
+        $this->mostrarFormulario($aulas, $horas, "Reservar", $validador, null);
         exit();
     }
 
@@ -263,7 +300,7 @@ class Controlador
         $this->dao = new DaoReserva();
         $archivoImportado = $_FILES['importar-archivo'];
         move_uploaded_file($archivoImportado['tmp_name'], './bbdd/bbdd.xml');
-        $this->dao->insertarXML($archivoImportado);
+        $this->dao->insertarXML();
     }
 
     private function enviarCorreo($datos)
@@ -290,9 +327,6 @@ class Controlador
             $mail->isHTML(true);
             $mail->Subject = 'Reserva del aula ' . $datos['aula'];
             $mail->Body    = '
-            <style>
-                @import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
-            </style>
             <div style="background-color: #C9D6DF; width: 75%; margin: auto; font-family: Poppins; border-radius: 5px; padding: 10px; font-size: 22px;">
                 <h1 style="text-align: center; margin: auto;">Reserva</h1>
                 <hr style="background-color: black; height: 1px; border: none;">

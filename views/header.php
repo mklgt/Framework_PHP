@@ -10,7 +10,7 @@
 </head>
 
 <body class="bg-principal">
-
+    
     <header class="bg-grisClaro border border-start-0 border-end-0 border-3 border-dark">
         <h1 class="text-center p-4 text-light font-weight-bolder">
             <a href="index.php" class="text-decoration-none text-light">AULA</a>
@@ -24,7 +24,7 @@
 
     <nav class="bg-secundario">
         <form id="formPag" action="index.php" method="post">
-        <button type="submit" name="pagina" value="consulta" class="btn btn-outline-secondary border-0 rounded-0 fs-6 p-3">Consultar Aula</button>
+            <button type="submit" name="pagina" value="consulta" class="btn btn-outline-secondary border-0 rounded-0 fs-6 p-3">Consultar Aula</button>
             <button type="submit" name="pagina" value="formulario" class="btn btn-outline-secondary border-0 rounded-0 fs-6 p-3">Reservar</button>
             <button type="submit" name="pagina" value="editar" class="btn btn-outline-secondary border-0 rounded-0 fs-6 p-3">Editar reservas</button>
             <?php 

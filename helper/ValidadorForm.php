@@ -78,6 +78,12 @@ class ValidadorForm
                             }
                             break;
 
+                        case 'valido':
+                            if (!in_array($campoAValidar, $valorRegla)) {
+                                $this->addError($campo, "El aula introducida no es válida");
+                            }
+                            break;
+
                         case 'value':
                             if (!($campoAValidar == $valorRegla)) {
                                 $this->addError($campo, "Debe tener más de " . $valorRegla . " carácteres");

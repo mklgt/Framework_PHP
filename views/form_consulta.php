@@ -27,7 +27,6 @@ include "header.php";
                         Clase:
                         <select name='aula_consulta' class="w-100 rounded border-0 p-1 mt-1">
                             <?php
-                            $aulas = ["A01", "A02", "A03", "A04", "A05", "A06"];
                             foreach ($aulas as $aula) {
                                 echo "<option id='aula' value=$aula ";
                                 echo Utilidades::verificarSelect(Input::get('aula_consulta'), $aula) . ">";
@@ -54,9 +53,13 @@ if (isset($_POST['aula_consulta']) && isset($_POST['fecha_consulta'])) {
 
 
 if (isset($_POST['aula_consulta'])) {
+    setlocale(LC_TIME, "spanish");
+    $mi_fecha = $fecha_consulta;
+    $mi_fecha = str_replace("/", "-", $mi_fecha);			
+    $fecha_consultada = date("d-m-Y", strtotime($mi_fecha));
     echo "<h1 class='text-center'>Clase: $aula_consulta</h1>";
-    echo "<h1 class='text-center'>Día: $fecha_consulta</h1>";
-    $horas = ['08:30', '09:25', '10:20', '11:15', '11:45', '12:40', '13:35', '14:30', '15:25', '16:20', '17:15', '18:10', '19:05', '20:00', '21:00'];
+    echo "<h1 class='text-center'>Día: $fecha_consultada</h1>";
+    //$horas = ['08:30', '09:25', '10:20', '11:15', '11:45', '12:40', '13:35', '14:30', '15:25', '16:20', '17:15', '18:10', '19:05', '20:00', '21:00'];
 
     echo "<div class='bg-grisClaro w-75 mx-auto p-3 mb-3 rounded border border-dark border-2'/>";
     foreach ($horas as $hora) {

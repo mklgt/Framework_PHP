@@ -23,30 +23,24 @@ if (Input::siEnviado()) {
                 Usuario
                 <input class="w-100 rounded border-0 p-1 mt-1" type="text" name="usuario" minlength="8" maxlength="12" 
                 <?php
-                if (isset($_SESSION['usuario'])) {
-                    echo "value= " . $_SESSION['usuario'];    
-                }                               
-                
+                    if (isset($_SESSION['usuario'])) {
+                        echo "value= " . $_SESSION['usuario'];    
+                    }                               
                 ?>
                 >
             </label>
             <br>
             <label class="w-100 mt-3">Aula
-                <select name='aula' class="w-100 rounded border-0 p-1 mt-1">
-                    <?php
-                    $aulas = ["A01", "A02", "A03", "A04", "A05", "A06"];
+                <input list="aula" name='aula' class="w-100 rounded border-0 p-1 mt-1" autocomplete="off">
+                <datalist id="aula">
+                <?php
                     foreach ($aulas as $aula) {
-                        echo "<option id='aula' value=$aula ";
-                        if (isset($_GET['aula_seleccionada']) && $_GET['aula_seleccionada'] == $aula) {
-                            echo "selected >";
-                        } else {
-                            echo Utilidades::verificarSelect(Input::get('aula'), $aula) . ">";
-                        }
-                        
+                        echo "<option id='aula' value=$aula>";                        
                         echo "$aula </option>";
                     }
                     ?>
-                </select><br /></label>
+                </datalist>
+            <br /></label>
             <div class="bg-principal mt-3 p-3 rounded">
             <label for="fecha">
                     Fecha:
@@ -67,7 +61,7 @@ if (Input::siEnviado()) {
                         Desde
                         <select class="mx-2 rounded border-0 p-1" name='hora-desde'>
                     <?php
-                    $horas = ['08:30', '09:25', '10:20', '11:15', '11:45', '12:40', '13:35', '14:30', '15:25', '16:20', '17:15', '18:10', '19:05', '20:00', '21:00'];
+                    //$horas = ['08:30', '09:25', '10:20', '11:15', '11:45', '12:40', '13:35', '14:30', '15:25', '16:20', '17:15', '18:10', '19:05', '20:00', '21:00'];
                     foreach ($horas as $hora) {
                         echo "<option id='hora-desde' value=$hora name='hora-desde' ";
                         
@@ -86,7 +80,7 @@ if (Input::siEnviado()) {
                         Hasta
                         <select class="mx-2 rounded border-0 p-1" name='hora-hasta'>
                         <?php
-                        $horas = ['08:30', '09:25', '10:20', '11:15', '11:45', '12:40', '13:35', '14:30', '15:25', '16:20', '17:15', '18:10', '19:05', '20:00', '21:00'];
+                        //$horas = ['08:30', '09:25', '10:20', '11:15', '11:45', '12:40', '13:35', '14:30', '15:25', '16:20', '17:15', '18:10', '19:05', '20:00', '21:00'];
                         foreach ($horas as $hora) {
                             echo "<option id='hora-hasta' value=$hora name='hora-hasta' ";
                             echo Utilidades::verificarSelect(Input::get('hora-hasta'), $hora) . " >";                      
@@ -114,9 +108,7 @@ if (Input::siEnviado()) {
 <?php
 
 if (isset($resultado)) {
-    echo "<div class='border-grisClaro mt-3 p-2 rounded'/>";
     echo $resultado;
-    echo "</div>";
 }
 
 include "footer.php"

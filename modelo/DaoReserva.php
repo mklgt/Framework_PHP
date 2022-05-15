@@ -19,12 +19,29 @@ class DaoReserva
     public function comprobarSesion($usuario, $contraseña)
     {
         $this->db->conectar();
-        $sql = "SELECT * FROM sesiones WHERE usuario = '$usuario' AND contraseña = '$contraseña'";
-        $resultado = ($this->db->ejecutarSql($sql))->fetchAll();
+        $args = [$usuario, $contraseña];
+        $sql = "call comprobarSesion(?, ?)";
+        $resultado = $this->db->ejecutarSqlActualizacion($sql, $args)->fetchAll();
         if (!empty($resultado)) {
             return true;
         }
         return false;
+    }
+
+    public function consultarAulas()
+    {
+        $this->db->conectar();
+        $sql = "SELECT nombre FROM aula";
+        $resultado = ($this->db->ejecutarSql($sql))->fetchAll();
+        return $resultado;
+    }
+
+    public function consultarHoras()
+    {
+        $this->db->conectar();
+        $sql = "SELECT horaEntrada FROM tramo";
+        $resultado = ($this->db->ejecutarSql($sql))->fetchAll();
+        return $resultado;
     }
 
     public function mostrarReservas($usuario)
@@ -61,7 +78,7 @@ class DaoReserva
             $sql = "CALL `aulasReservadas`(?, ?, ?, ?); ";
             $args = array($reserva->getAula(), $reserva->getfecha(), $reserva->getHoraDesde(), $reserva->getHoraHasta());
             $result = $this->db->ejecutarSqlActualizacion($sql, $args);
-            //echo($result->fetchAll(PDO::FETCH_ASSOC)[0]['COUNT(*)']) ;
+
             if ($result->fetchAll(PDO::FETCH_ASSOC)[0]['COUNT(*)'] == 0) {
                 return false;
             } else {
@@ -93,15 +110,25 @@ class DaoReserva
     }
 
     /**
-     * Consulta la tabla de reservas
+     * Consulta la tabla de reservas para comprobar las disponibles en la fecha especificada
      */
     public function consultarFechaAula($fecha, $aula)
     {
         $this->db->conectar();
         $sql = "SELECT horaDesde, horaHasta, usuario FROM reservas WHERE fecha = '$fecha' AND aula = '$aula'";
 
-        // //$args = array($fecha, $aula);
-        $horasTotales = ['08:30', '09:25', '10:20', '11:15', '11:45', '12:40', '13:35', '14:30', '15:25', '16:20', '17:15', '18:10', '19:05', '20:00', '21:00'];
+        $consulta = $this->consultarHoras();
+        $horasTotales = [];
+        foreach ($consulta as $horas => $hora) {
+            foreach ($hora as $valor) {
+                $valor = substr($valor, 0, -3);
+                if (!in_array($valor, $horasTotales)) {
+                    $horasTotales[] = $valor; 
+                }                
+            }
+        }
+        asort($horasTotales);
+        //$horasTotales = ['08:30', '09:25', '10:20', '11:15', '11:45', '12:40', '13:35', '14:30', '15:25', '16:20', '17:15', '18:10', '19:05', '20:00', '21:00'];
         $resultado = ($this->db->ejecutarSql($sql))->fetchAll();
         $horasOcupadas = array();
         $datosTotales = array();
@@ -134,33 +161,6 @@ class DaoReserva
         }
         
         return $datosTotales;
-
-
-        // $horasOcupadas = array();
-        // $horasDeshabilitadas = array();
-        // foreach ($resultado as $horas) {
-        //     foreach ($horas as $hora) {
-        //         $hora = substr($hora, 0, -3);
-        //         if (!in_array($hora, $horasOcupadas)) {
-        //             $horasOcupadas[] = $hora;
-        //         }    
-        //     }
-        // }
-
-        // $desde = 0;
-        
-        // for ($pos=0; $pos < count($horasOcupadas); $pos++) { 
-        //     if ($pos % 2 == 0) {
-        //         $desde = array_search($horasOcupadas[$pos], $horas);
-        //     } else {
-        //         $hasta = array_search($horasOcupadas[$pos], $horasTotales);
-        //         echo $desde . "-" . $hasta;
-        //         $horasDeshabilitadas = array_slice($horasTotales, $desde, $hasta);
-        //     }
-            
-            
-        // }
-        // return $horasDeshabilitadas;
         
     }
     
@@ -171,16 +171,9 @@ class DaoReserva
      * @return void Esta función no devuelve nada pero si hay algun tipo de error devuelve el
      * mensaje del catch
      */
-    public function insertarXML($reserva)
+    public function insertarXML()
     {
         $this->db->conectar();
-        try {
-            $this->db->createDb(DB_NAME);
-            $this->db->createTables();
-            $this->db->consultarInformacion();
-        } catch (Exception $ex) {
-            echo $ex->getMessage();
-        }
         $this->db->desconectar();
     }
     

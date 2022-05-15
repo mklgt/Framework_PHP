@@ -6,6 +6,7 @@ include "header.php";
 
 <div class='bg-secundario mt-4 rounded w-75 mx-auto p-3 fs-6 mb-5'>
     <p class="h3 text-center">Reservas realizadas por el profesorado</p>
+    <div class="table-responsive">
     <table class="table">
         <thead>
             <tr>
@@ -37,6 +38,7 @@ include "header.php";
 ?>
         </tbody>
     </table>
+    </div>
     <div class="alert alert-danger d-flex align-items-center d-none" role="alert" id="confirmarEliminar">
         <div> 
             <form action="index.php" method="post">
