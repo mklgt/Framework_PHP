@@ -33,8 +33,6 @@ class DataBase implements IDataBase
             $this->createTables($this->conexion, $this->tables);
             $this->consultarInformacion();
         } catch (Exception $ex) {
-            //Añadir este error en el array de errores
-            //$error = "Error:no se pudó conectar a la base de datos;";
             echo "Error al conectar en la base de datos" . $ex->getMessage();
             exit();
         }
@@ -50,7 +48,7 @@ class DataBase implements IDataBase
      * Se le pasa como parámetros la conexion creada y el nombre de la base de datos a crear.
      * @param  object $db_name
      */
-    //Función que crea la base de datos, recibe la conexión creada y el nombre de esta
+    //Función que crea la base de datos, recibe la conexión creada y el nombre de esta NO SE UTILIZA EN UN PRINCIPIO
     public function createDb($db_name)
     {
         $create = "CREATE DATABASE IF NOT EXISTS $db_name";
@@ -112,7 +110,7 @@ class DataBase implements IDataBase
             $resul->execute($args);
             return $resul;
         } catch (Exception $e) {
-            //echo "<p>Error: " . $e->getMessage() . "</p>\n";
+            // No se necesita mensaje, continua con la ejecución
         }
     }
 

@@ -316,14 +316,19 @@ class Controlador
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
             $mail->Port       = 465;
 
+            // Correo desd donde se envía el mensaje
             $mail->setFrom('agonzalgam1@educacion.navarra.es', 'Reserva de aulas');
+
+            // Correo al que llegará el mensaje
             //$mail->addAddress($datos['usuario'] . '@educacion.navarra.es', 'Usuario');             
             $mail->addAddress('agonzalgam1@educacion.navarra.es', 'Usuario');
+
+            // Correo donde llega una copia del mensaje
             //$mail->addCC('jefeestudios@mariaanasanz.es'); Copia a Jefatura de estudios
             $mail->addCC('agonzalgam1@educacion.navarra.es');
-            //$mail->addCC('agonzalgam1@educacion.navarra.es');
 
-            //Content
+
+            //Contenido del mensaje
             $mail->isHTML(true);
             $mail->Subject = 'Reserva del aula ' . $datos['aula'];
             $mail->Body    = '
@@ -345,7 +350,7 @@ class Controlador
             $mail->send();
             //echo 'El mensaje se envió correctamente';
         } catch (Exception $e) {
-            echo "Error al enviar el correo al usuario: {$mail->ErrorInfo}";
+            echo "Error al enviar el correo al usuario, no se puedo realizar el envío";
         }
     }
 }

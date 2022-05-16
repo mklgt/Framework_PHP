@@ -11,7 +11,6 @@ class ValidadorForm
 {
 
     private $errores = [];
-    //private $reglasValidacion = null;
     private $valido = false;
 
     public function __construct()
@@ -90,12 +89,6 @@ class ValidadorForm
                             }
                             break;
                     }
-
-                    /*if ($regla == "min") {
-                        if (!($campoAValidar >= $valorRegla)) {
-                            $this->addError($campo, "tiene que tener más de 8 carácteres");
-                        }
-                    }*/
                 }
             } else {
                 $this->addError($campo, "Es requerido");

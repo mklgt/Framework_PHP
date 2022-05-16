@@ -59,7 +59,6 @@ if (isset($_POST['aula_consulta'])) {
     $fecha_consultada = date("d-m-Y", strtotime($mi_fecha));
     echo "<h1 class='text-center'>Clase: $aula_consulta</h1>";
     echo "<h1 class='text-center'>Día: $fecha_consultada</h1>";
-    //$horas = ['08:30', '09:25', '10:20', '11:15', '11:45', '12:40', '13:35', '14:30', '15:25', '16:20', '17:15', '18:10', '19:05', '20:00', '21:00'];
 
     echo "<div class='bg-grisClaro w-75 mx-auto p-3 mb-3 rounded border border-dark border-2'/>";
     foreach ($horas as $hora) {
@@ -69,8 +68,7 @@ if (isset($_POST['aula_consulta'])) {
             $usuario = $datos['usuario'];
             $horasOcupadas = $datos['horasOcupadas'];
             if (in_array($hora, $horasOcupadas)) {
-                $clase = 'ocupado';  
-                // Poner una alerta cuando clicka    
+                $clase = 'ocupado';    
                 echo "<p class='$clase p-1 rounded fw-bold' id='clase-ocupada'><a>$hora - Reservada por: $usuario</a></p>";
                 $ocupada = true;
             } else {

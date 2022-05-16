@@ -42,9 +42,8 @@ class Input
     {
         if (isset($_POST[$datos])) {
             $campo = $_POST[$datos];
-            //$campo = htmlspecialchars($_POST[$datos], ENT_QUOTES);
-            // Comprueba si el texto introducido en el campo contiene caracteres de etiquietas
-            
+
+            // Comprueba si el texto introducido en el campo contiene caracteres de etiquietas 
             if ($campo !== strip_tags($campo) || str_contains($campo, ">")) {
 
                 $campo = "";

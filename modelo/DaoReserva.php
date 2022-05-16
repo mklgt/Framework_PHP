@@ -128,7 +128,6 @@ class DaoReserva
             }
         }
         asort($horasTotales);
-        //$horasTotales = ['08:30', '09:25', '10:20', '11:15', '11:45', '12:40', '13:35', '14:30', '15:25', '16:20', '17:15', '18:10', '19:05', '20:00', '21:00'];
         $resultado = ($this->db->ejecutarSql($sql))->fetchAll();
         $horasOcupadas = array();
         $datosTotales = array();

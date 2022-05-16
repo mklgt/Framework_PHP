@@ -8,7 +8,7 @@
     echo "<h2>Sesion iniciada</h2>";
     header('Cache-Control: no cache');
     session_cache_limiter('private_no_expire');
-    //session_cache_limiter('public'); // works too
+    //session_cache_limiter('public');
     session_start();
 
     if (isset($_POST['usuario']) && isset($_POST['contraseña'])) {

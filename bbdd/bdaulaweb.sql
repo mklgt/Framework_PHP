@@ -32,6 +32,10 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `aulasReservadas` (IN `aulaRes` VARC
 SELECT COUNT(*) FROM reservas WHERE (aula = aulaRes AND fecha = fechaRes) AND ((horaDesdeRes = horaDesde AND horaHastaRes = horaHasta) OR (horaDesdeRes < horaDesde AND horaHastaRes > horaHasta) OR (horaDesdeRes > horaDesde AND horaHastaRes < horaHasta) OR ((horaDesdeRes > horaDesde AND horaDesdeRes < horaHasta) AND (horaHastaRes >= horaHasta OR horaHastaRes <= horaHasta)) OR ((horaDesdeRes <= horaDesde) AND (horaHastaRes > horaDesde AND horaHastaRes < horaHasta)) OR (horaDesdeRes < horaDesde AND horaHastaRes > horaHasta));
 END$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `comprobarSesion` (IN `nombreUsuario` VARCHAR(14), IN `contraseñaUsuario` VARCHAR(50))  BEGIN
+SELECT * FROM sesiones WHERE usuario = nombreUsuario AND contraseña = contraseñaUsuario;
+END$$
+
 DELIMITER ;
 
 -- --------------------------------------------------------

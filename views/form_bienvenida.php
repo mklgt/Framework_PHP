@@ -61,7 +61,6 @@ if (Input::siEnviado()) {
                         Desde
                         <select class="mx-2 rounded border-0 p-1" name='hora-desde'>
                     <?php
-                    //$horas = ['08:30', '09:25', '10:20', '11:15', '11:45', '12:40', '13:35', '14:30', '15:25', '16:20', '17:15', '18:10', '19:05', '20:00', '21:00'];
                     foreach ($horas as $hora) {
                         echo "<option id='hora-desde' value=$hora name='hora-desde' ";
                         
@@ -80,7 +79,6 @@ if (Input::siEnviado()) {
                         Hasta
                         <select class="mx-2 rounded border-0 p-1" name='hora-hasta'>
                         <?php
-                        //$horas = ['08:30', '09:25', '10:20', '11:15', '11:45', '12:40', '13:35', '14:30', '15:25', '16:20', '17:15', '18:10', '19:05', '20:00', '21:00'];
                         foreach ($horas as $hora) {
                             echo "<option id='hora-hasta' value=$hora name='hora-hasta' ";
                             echo Utilidades::verificarSelect(Input::get('hora-hasta'), $hora) . " >";                      
