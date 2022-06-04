@@ -45,7 +45,6 @@ include "header.php";
 </form>
 
 <?php
-
 if (isset($_POST['aula_consulta']) && isset($_POST['fecha_consulta'])) {
     $aula_consulta = $_POST['aula_consulta'];
     $fecha_consulta = $_POST['fecha_consulta'];
@@ -53,13 +52,13 @@ if (isset($_POST['aula_consulta']) && isset($_POST['fecha_consulta'])) {
 
 
 if (isset($_POST['aula_consulta'])) {
+    $horaActual = date('H:i');
     setlocale(LC_TIME, "spanish");
     $mi_fecha = $fecha_consulta;
     $mi_fecha = str_replace("/", "-", $mi_fecha);			
     $fecha_consultada = date("d-m-Y", strtotime($mi_fecha));
     echo "<h1 class='text-center'>Clase: $aula_consulta</h1>";
     echo "<h1 class='text-center'>Día: $fecha_consultada</h1>";
-
     echo "<div class='bg-grisClaro w-75 mx-auto p-3 mb-3 rounded border border-dark border-2'/>";
     foreach ($horas as $hora) {
         $ocupada = false;
@@ -75,8 +74,11 @@ if (isset($_POST['aula_consulta'])) {
                 $clase = 'libre';
             }
         }
-        if (!$ocupada) {
+        if (!$ocupada && $hora > $horaActual) {
             echo "<p class='$clase p-1 rounded fw-bold'><a class='text-decoration-none text-black pr-75' href='index.php?hora_seleccionada=$hora&&fecha_seleccionada=$fecha_consulta&&aula_seleccionada=$aula_consulta'>$hora - Disponible</a></p>";
+        } else {
+            $clase = 'ocupado'; 
+            echo "<p class='$clase p-1 rounded fw-bold' id='clase-ocupada'><a>$hora - No disponible</a></p>";
         }
         
     }
