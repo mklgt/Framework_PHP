@@ -1,0 +1,13 @@
+CREATE PROCEDURE `aulasReservadas` (IN `aulaRes` VARCHAR(5), IN `fechaRes` DATE, IN `horaDesdeRes` TIME, IN `horaHastaRes` TIME)  
+BEGIN
+SELECT COUNT(*) FROM reservas WHERE 
+(aula = aulaRes AND fecha = fechaRes) AND 
+((horaDesdeRes = horaDesde AND horaHastaRes = horaHasta) OR 
+(horaDesdeRes < horaDesde AND horaHastaRes > horaHasta) OR 
+(horaDesdeRes > horaDesde AND horaHastaRes < horaHasta) OR 
+((horaDesdeRes > horaDesde AND horaDesdeRes < horaHasta) AND 
+(horaHastaRes >= horaHasta OR horaHastaRes <= horaHasta)) OR 
+((horaDesdeRes <= horaDesde) AND 
+(horaHastaRes > horaDesde AND horaHastaRes < horaHasta))
+ OR (horaDesdeRes < horaDesde AND horaHastaRes > horaHasta));
+END$$

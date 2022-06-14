@@ -1,5 +1,5 @@
 <?php
-include 'DataBase.php';
+//include 'DataBase.php';
 set_time_limit(300);
 /**
  * @method existeReserva($reserva)
@@ -74,6 +74,8 @@ class DaoReserva
     public function existeReserva($reserva)
     {
         $this->db->conectar();
+        //CONSULTAR LA TABLA OCUPADAS: if() then SI está ocupada return true else() ver aulasReservas (lo que hay de código)
+
         try {
             $sql = "CALL `aulasReservadas`(?, ?, ?, ?); ";
             $args = array($reserva->getAula(), $reserva->getfecha(), $reserva->getHoraDesde(), $reserva->getHoraHasta());
@@ -165,15 +167,15 @@ class DaoReserva
     
     
 /**
-     * Recibe la reserva y simplemente hace una conulta de tipo INSERT
+     * Recibe la reserva y  hace una conulta de tipo INSERT
      * @param  Reserva $reserva
      * @return void Esta función no devuelve nada pero si hay algun tipo de error devuelve el
      * mensaje del catch
      */
-    public function insertarXML()
+   /*  Movido a DaoXML public function insertarDatosArchivoXML()
     {
         $this->db->conectar();
         $this->db->desconectar();
     }
-    
+     */
 }

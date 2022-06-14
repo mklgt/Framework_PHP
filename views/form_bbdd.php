@@ -17,5 +17,8 @@ include "header.php";
 </form>
 
 <?php
+ if (isset($resultado)) {
+    echo $resultado;
+}
 include "footer.php";
 ?>

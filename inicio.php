@@ -4,7 +4,7 @@
  * ha iniciado una sesión.
  */
     include "views/header.php";
-
+    // HEADER DEBE SER LA 1ª SENTENCIA DEL NAVEGADOR NO ECHO
     echo "<h2>Sesion iniciada</h2>";
     header('Cache-Control: no cache');
     session_cache_limiter('private_no_expire');

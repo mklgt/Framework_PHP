@@ -26,11 +26,12 @@
         <form id="formPag" action="index.php" method="post">
             <button type="submit" name="pagina" value="consulta" class="btn btn-outline-secondary border-0 rounded-0 fs-6 p-3">Consultar Aula</button>
             <button type="submit" name="pagina" value="formulario" class="btn btn-outline-secondary border-0 rounded-0 fs-6 p-3">Reservar</button>
-            <button type="submit" name="pagina" value="editar" class="btn btn-outline-secondary border-0 rounded-0 fs-6 p-3">Editar reservas</button>
+            <button type="submit" name="pagina" value="editar" class="btn btn-outline-secondary border-0 rounded-0 fs-6 p-3">Mis reservas</button>
             <?php 
             if(isset($_SESSION['usuario']) && $_SESSION['usuario']=="jefeestudios"){               
                 echo '<button type="submit" name="pagina" value="todasReservas" class="btn btn-outline-secondary border-0 rounded-0 fs-6 p-3">Reservas</button>';                
-                echo '<button type="submit" name="pagina" value="bbdd" class="btn btn-outline-secondary border-0 rounded-0 fs-6 p-3">Base de Datos</button>'; 
+                echo '<button type="submit" name="pagina" value="bbdd" class="btn btn-outline-secondary border-0 rounded-0 fs-6 p-3">Ac1: Carga tablas: tramo y aula</button>'; 
+                echo '<button type="submit" name="pagina" value="Ocupadas" class="btn btn-outline-secondary border-0 rounded-0 fs-6 p-3">Ac2: Carga Aulas Ocupadas</button>'; 
             }?>
         </form>
     </nav>

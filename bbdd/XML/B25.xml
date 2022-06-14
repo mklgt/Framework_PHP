@@ -1,0 +1,64 @@
+<resul>
+  <plantilla xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <tramo dia="0" indice="4" marco="A">preferentementeNo1</tramo>
+    <tramo dia="4" indice="4" marco="A">fijado</tramo>
+  </plantilla>
+</resul>
+<resul>
+  <plantilla xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <tramo dia="3" indice="5" marco="A">fijado</tramo>
+    <tramo dia="3" indice="6" marco="A">fijado</tramo>
+  </plantilla>
+</resul>
+<resul>
+  <plantilla xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <tramo dia="3" indice="4" marco="A">fijado</tramo>
+  </plantilla>
+</resul>
+<resul>
+  <plantilla xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <tramo dia="4" indice="5" marco="A">fijado</tramo>
+    <tramo dia="4" indice="6" marco="A">fijado</tramo>
+  </plantilla>
+</resul>
+<resul>
+  <plantilla xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <tramo dia="0" indice="5" marco="A">fijado</tramo>
+    <tramo dia="0" indice="6" marco="A">fijado</tramo>
+  </plantilla>
+</resul>
+<resul>
+  <plantilla xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <tramo dia="2" indice="2" marco="A">fijado</tramo>
+    <tramo dia="2" indice="4" marco="A">fijado</tramo>
+  </plantilla>
+</resul>
+<resul>
+  <plantilla xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <tramo dia="2" indice="5" marco="A">fijado</tramo>
+    <tramo dia="2" indice="6" marco="A">fijado</tramo>
+    <tramo dia="4" indice="0" marco="A">fijado</tramo>
+    <tramo dia="4" indice="1" marco="A">fijado</tramo>
+    <tramo dia="4" indice="2" marco="A">fijado</tramo>
+  </plantilla>
+</resul>
+<resul>
+  <plantilla xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <tramo dia="3" indice="9" marco="A">fijado</tramo>
+    <tramo dia="3" indice="10" marco="A">fijado</tramo>
+    <tramo dia="4" indice="13" marco="A">fijado</tramo>
+    <tramo dia="4" indice="14" marco="A">fijado</tramo>
+  </plantilla>
+</resul>
+<resul>
+  <plantilla xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <tramo dia="0" indice="2" marco="A">fijado</tramo>
+    <tramo dia="0" indice="4" marco="A">fijado</tramo>
+  </plantilla>
+</resul>
+<resul>
+  <plantilla xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <tramo dia="1" indice="0" marco="A">fijado</tramo>
+    <tramo dia="1" indice="1" marco="A">fijado</tramo>
+  </plantilla>
+</resul>

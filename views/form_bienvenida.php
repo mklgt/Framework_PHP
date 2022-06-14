@@ -8,7 +8,7 @@ if (Input::siEnviado()) {
     if (!empty($errores)) {
         echo "<div class='bg-danger w-75 p-3 mx-auto mt-3 fw-bold rounded'>";
         foreach ($errores as $campo => $mensaje) {
-            echo "<p>".$validador->getMensajeError($campo)."</p>\n";
+            echo "<p>" . $validador->getMensajeError($campo) . "</p>\n";
         }
         echo "</div>";
     }
@@ -21,93 +21,91 @@ if (Input::siEnviado()) {
         <div class='bg-secundario mt-4 rounded w-75 mx-auto p-3 fs-6 mb-5'>
             <label class="w-100 mt-2">
                 Usuario
-                <input class="w-100 rounded border-0 p-1 mt-1" type="text" name="usuario" minlength="8" maxlength="12" 
-                <?php
-                    if (isset($_SESSION['usuario'])) {
-                        echo "value= " . $_SESSION['usuario'];    
-                    }                               
-                ?>
-                >
+                <input class="w-100 rounded border-0 p-1 mt-1" type="text" name="usuario" minlength="8" maxlength="12" <?php
+                                                                                                                        if (isset($_SESSION['usuario'])) {
+                                                                                                                            echo "value= " . $_SESSION['usuario'];
+                                                                                                                        }
+                                                                                                                        ?>>
             </label>
             <br>
             <label class="w-100 mt-3">Aula
                 <input list="aula" name='aula' class="w-100 rounded border-0 p-1 mt-1" autocomplete="off">
                 <datalist id="aula">
-                <?php
+                    <?php
+                    echo 'Hola';
                     foreach ($aulas as $aula) {
-                        echo "<option id='aula' value=$aula>";                        
+
+                        echo "<option id='aula' value=$aula_seleccionada>";
                         echo "$aula </option>";
                     }
                     ?>
                 </datalist>
-            <br /></label>
-            <div class="bg-principal mt-3 p-3 rounded">
-            <label for="fecha">
+                <br /></label>
+            <div class="bg-principal mt-2 p-3 rounded">
+                <label for="fecha">
                     Fecha:
-                    <input class="rounded border-0 p-1 mt-1" type="date" id="fecha" name="fecha"
-                    <?php
-                    if (isset($_GET['fecha_seleccionada'])) {
-                        $fecha_seleccionada = $_GET['fecha_seleccionada'];
-                        echo "value = $fecha_seleccionada";
-                    }
-                    $diaActual = "20" . date('y-m-d');
-                    echo " min=$diaActual value=$diaActual>";
-                    
-                    ?>
-                </label>
-                <br />
-                <div class="mt-3">
-                <label>
-                        Desde
-                        <select class="mx-2 rounded border-0 p-1" name='hora-desde'>
-                    <?php
-                    foreach ($horas as $hora) {
-                        echo "<option id='hora-desde' value=$hora name='hora-desde' ";
-                        
-                        if (isset($_GET['hora_seleccionada']) && $_GET['hora_seleccionada'] == $hora) {
-                            $hora_seleccionada = $_GET['hora_seleccionada'];
-                            echo "selected >";
-                        } else {
-                            echo Utilidades::verificarSelect(Input::get('hora-desde'), $hora) . " >";
-                        }
-                        echo "$hora </option>";
-                    }
-                    ?>
-                </select><br />
-                    </label>
-                    <label>
-                        Hasta
-                        <select class="mx-2 rounded border-0 p-1" name='hora-hasta'>
-                        <?php
-                        foreach ($horas as $hora) {
-                            echo "<option id='hora-hasta' value=$hora name='hora-hasta' ";
-                            echo Utilidades::verificarSelect(Input::get('hora-hasta'), $hora) . " >";                      
-                            echo "$hora </option>";
-                        }
-                        ?>
-                    </select><br />
-                    </label>
-                </div>
-                
+                    <input class="rounded border-0 p-1 mt-1" type="date" id="fecha" name="fecha" <?php
+                                                                                                    if (isset($_GET['fecha_seleccionada'])) {
+                                                                                                        $fecha_seleccionada = $_GET['fecha_seleccionada'];
+                                                                                                        echo "value = $fecha_seleccionada";
+                                                                                                    }
+                                                                                                    $diaActual = "20" . date('y-m-d');
+                                                                                                    echo " min=$diaActual value=$diaActual>";
+
+                                                                                                    ?> </label>
+                    <br />
+                    <div class="mt-3">
+                        <label>
+                            Desde
+                            <select class="mx-2 rounded border-0 p-1" name='hora-desde'>
+                                <?php
+                                foreach ($horas as $hora) {
+                                    echo "<option id='hora-desde' value=$hora name='hora-desde' ";
+
+                                    if (isset($_GET['hora_seleccionada']) && $_GET['hora_seleccionada'] == $hora) {
+                                        $hora_seleccionada = $_GET['hora_seleccionada'];
+                                        echo "selected >";
+                                    } else {
+                                        echo Utilidades::verificarSelect(Input::get('hora-desde'), $hora) . " >";
+                                    }
+                                    echo "$hora </option>";
+                                }
+                                ?>
+                            </select><br />
+                        </label>
+                        <label>
+                            Hasta
+                            <select class="mx-2 rounded border-0 p-1" name='hora-hasta'>
+                                <?php
+                                foreach ($horas as $hora) {
+                                    echo "<option id='hora-hasta' value=$hora name='hora-hasta' ";
+                                    echo Utilidades::verificarSelect(Input::get('hora-hasta'), $hora) . " >";
+                                    echo "$hora </option>";
+                                }
+                                ?>
+                            </select><br />
+                        </label>
+                    </div>
+
             </div>
             <br>
             <label class="w-100">
                 Motivo:
                 <br>
-                <textarea id="motivo" class="w-100 rounded border-0 p-1 mt-1" name="motivo" rows="7" cols="100" placeholder="Esciba el motivo de su reserva..." required><?php if (isset($_POST['motivo'])) { echo Input::filtrarDato('motivo');}?></textarea>
+                <textarea id="motivo" class="w-100 rounded border-0 p-1 mt-1" name="motivo" rows="5" cols="100" placeholder="Esciba el motivo de su reserva..." required><?php if (isset($_POST['motivo'])) {
+                                                                                                                                                                                echo Input::filtrarDato('motivo');
+                                                                                                                                                                            } ?></textarea>
             </label>
-            <input id="submit" class="btn btn-success w-100 p-2 mt-3" type="submit" name="enviar" 
+            <input id="submit" class="btn btn-success w-100 p-2 mt-3" type="submit" name="enviar" <?php
+                                                                                                    echo "value=$fase />";
+                                                                                                    ?> </form>
+
+
             <?php
-            echo "value=$fase />";
+
+            if (isset($resultado)) {
+                echo $resultado;
+            }
+
+            include "footer.php"
             ?>
-</form>
-
-
-<?php
-
-if (isset($resultado)) {
-    echo $resultado;
-}
-
-include "footer.php"
-?>

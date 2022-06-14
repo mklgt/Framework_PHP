@@ -1,6 +1,8 @@
 <?php
 include "helper/ValidadorForm.php";
 include "modelo/DaoReserva.php";
+include "modelo/DaoSession.php";
+include "modelo/DaoXML.php";
 include "modelo/Reserva.php";
 
 //Código para el envio del correo electrónico
@@ -17,11 +19,39 @@ class Controlador
 
     public function run()
     {
-        header('Cache-Control: no cache');
-        session_cache_limiter('private_no_expire');
+        //header('Cache-Control: no cache');
+        //session_cache_limiter('private_no_expire');
         session_start();
+
+        // Aquí Mejor donde interese
+        //$aulas = $this->mostrarAulas();
+        //$horas = $this->mostrarHoras();
+        
+        // Aulas Ocupadas extraidas del XML
+        if (isset($_POST['pagina']) && ($_POST['pagina']) == 'Ocupadas') {
+            $this->dao = new DaoXML();
+            $this->dao->buscaAulasOcupadasArchivoXML();
+            //FALTA
+            exit();
+        }
+
+        // CREAR LAS TABLAS TRAMO Y AULA
         if (isset($_POST['pagina']) && ($_POST['pagina']) == 'bbdd') {
             $this->mostrarbbdd(null);
+            exit();
+        }
+        if (isset($_POST['bbdd']) && ($_POST['bbdd']) == 'Actualizar') {
+            $resultado = "";
+
+            $this->dao = new DaoXML();
+            $this->dao->dropTables();
+            $this->dao->createTables();
+
+            // Datos del archivo XML ¿??¿
+            $this->dao->insertarXML();
+            $this->dao->insertarDatosArchivoXML();
+            $resultado = "Archivo subido";
+            $this->mostrarbbdd($resultado);
             exit();
         }
 
@@ -34,7 +64,7 @@ class Controlador
             $this->mostrarEditarReservas($reservasUsuario);
             exit();
         }
-        
+
         if ((isset($_POST['pagina']) && ($_POST['pagina']) == 'todasReservas') || (isset($_POST['eliminar']) && $_POST['eliminar'] == 'Eliminar')) {
             if (isset($_POST['eliminar']) && $_POST['eliminar'] == 'Eliminar') {
                 $this->eliminarReserva($_POST['idReserva']);
@@ -45,12 +75,7 @@ class Controlador
             exit();
         }
 
-        if (isset($_POST['bbdd']) && ($_POST['bbdd']) == 'Actualizar') {
-            $resultado = "";
-            $this->insertarXML();
-            $this->mostrarbbdd($resultado);
-            exit();
-        }
+
 
         if ((isset($_POST['pagina']) && ($_POST['pagina']) == 'consulta') || (isset($_POST['consulta']) && $_POST['consulta'] == 'Consultar')) {
 
@@ -76,38 +101,44 @@ class Controlador
                     exit();
                 }
             }
+        }
 
+
+        /*  $aulas = $this->mostrarAulas();
+            $horas = $this->mostrarHoras(); */
+
+        if (!isset($_POST['enviar'])) // No se ha enviado el formulario
+        {
             $aulas = $this->mostrarAulas();
             $horas = $this->mostrarHoras();
+            // Se llama al método para mostrar el formulario inicial pasando un argumento sin valor como resultado
+            $this->mostrarFormulario($aulas, $horas, "Reservar", null, null);
+            exit();
+        }
+        if (isset($_POST['enviar']) && ($_POST['enviar']) == 'Reservar') {
 
-            if (!isset($_POST['enviar'])) // No se ha enviado el formulario
-            {
-                // Se llama al método para mostrar el formulario inicial pasando un argumento sin valor como resultado
-                $this->mostrarFormulario($aulas, $horas, "Reservar", null, null);
-                exit();
-            }
-            if (isset($_POST['enviar']) && ($_POST['enviar']) == 'Reservar') {
-
-                $this->validar();
-                exit();
-            }
-            if (isset($_POST['enviar']) && ($_POST['enviar']) == 'Continuar') {
-                $mensaje = '<div class="bg-success border-grisClaro mt-3 p-2 rounded text-center text-light fw-bold"><p class="h3">Reserva realizada</p></div>';
-                unset($_POST);
-                $this->mostrarFormulario($aulas, $horas, 'Reservar', null, $mensaje);
-            }
+            $this->validar();
+            exit();
+        }
+        if (isset($_POST['enviar']) && ($_POST['enviar']) == 'Continuar') {
+            $aulas = $this->mostrarAulas();
+            $horas = $this->mostrarHoras();
+            $mensaje = '<div class="bg-success border-grisClaro mt-3 p-2 rounded text-center text-light fw-bold"><p class="h3">Reserva realizada</p></div>';
+            unset($_POST);
+            $this->mostrarFormulario($aulas, $horas, 'Reservar', null, $mensaje);
         }
     }
 
+
     // Metodo que muestra la pantalla de login
-    private function mostrarLogin($errorLogin)
+    public function mostrarLogin($errorLogin)
     {
         //se muestra la vista del formulario (la plantilla login.php)   
         include 'views/login.php';
     }
 
     // Metodo que muestra el formulario
-    private function mostrarFormulario($aulas, $horas, $fase, $validador, $resultado)
+    public function mostrarFormulario($aulas, $horas, $fase, $validador, $resultado)
     {
         //se muestra la vista del formulario (la plantilla form_bienvenida.php)
         include 'views/form_bienvenida.php';
@@ -141,7 +172,7 @@ class Controlador
 
     private function comprobarDatosSesion($usuario, $contraseña)
     {
-        $this->dao = new DaoReserva();
+        $this->dao = new DaoSession();
         $consulta = $this->dao->comprobarSesion($usuario, $contraseña);
         return $consulta;
     }
@@ -154,8 +185,8 @@ class Controlador
         foreach ($consulta as $aulas => $aula) {
             foreach ($aula as $valor) {
                 if (!in_array($valor, $todasAulas)) {
-                    $todasAulas[] = $valor; 
-                }                
+                    $todasAulas[] = $valor;
+                }
             }
         }
         return $todasAulas;
@@ -170,8 +201,8 @@ class Controlador
             foreach ($hora as $valor) {
                 $valor = substr($valor, 0, -3);
                 if (!in_array($valor, $todasHoras)) {
-                    $todasHoras[] = $valor; 
-                }                
+                    $todasHoras[] = $valor;
+                }
             }
         }
         asort($todasHoras);
@@ -246,7 +277,7 @@ class Controlador
             $resultado .= "·Motivo: $motivo";
 
             $resultado .= "<br /></div>";
-            
+
             $this->registrar($validador);
             if ($validador->esValido()) {
                 $this->enviarCorreo($_POST);
@@ -295,13 +326,13 @@ class Controlador
         return $consulta;
     }
 
-    private function insertarXML()
+    /* private function insertarXML()
     {
         $this->dao = new DaoReserva();
         $archivoImportado = $_FILES['importar-archivo'];
         move_uploaded_file($archivoImportado['tmp_name'], './bbdd/bbdd.xml');
         $this->dao->insertarXML();
-    }
+    } */
 
     private function enviarCorreo($datos)
     {
@@ -311,21 +342,21 @@ class Controlador
             $mail->Host       = 'smtp.gmail.com';
             $mail->SMTPAuth   = true;
             //TODO Cambiar a jefe de estuidos
-            $mail->Username   = 'agonzalgam1@educacion.navarra.es';
-            $mail->Password   = 'tmgiuusllhdxnkie';
+            $mail->Username   = 'carocena@educacion.navarra.es';
+            $mail->Password   = 'exqubnluyfaysxgw';
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
             $mail->Port       = 465;
 
             // Correo desd donde se envía el mensaje
-            $mail->setFrom('agonzalgam1@educacion.navarra.es', 'Reserva de aulas');
+            $mail->setFrom('carocena@educacion.navarra.es', 'Reserva de aulas');
 
             // Correo al que llegará el mensaje
             //$mail->addAddress($datos['usuario'] . '@educacion.navarra.es', 'Usuario');             
-            $mail->addAddress('agonzalgam1@educacion.navarra.es', 'Usuario');
+            $mail->addAddress('carocena@educacion.navarra.es', 'Usuario');
 
             // Correo donde llega una copia del mensaje
             //$mail->addCC('jefeestudios@mariaanasanz.es'); Copia a Jefatura de estudios
-            $mail->addCC('agonzalgam1@educacion.navarra.es');
+            $mail->addCC('carocena@educacion.navarra.es');
 
 
             //Contenido del mensaje
