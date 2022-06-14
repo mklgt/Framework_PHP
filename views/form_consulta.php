@@ -29,7 +29,7 @@ include "header.php";
                             <?php
                             foreach ($aulas as $aula) {
                                 echo "<option id='aula' value=$aula ";
-                                echo Utilidades::verificarSelect(Input::get('aula_consulta'), $aula) . ">";
+                                echo Utilidades::verificarValorCampo(Input::get('aula_consulta'), $aula) . ">";
                                 echo "$aula </option>";
                             }
                             ?>

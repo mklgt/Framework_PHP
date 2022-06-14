@@ -12,7 +12,7 @@ class Utilidades
      * @param  string $valormenu
      * @return string echo 'value=' . $valor;
      */
-    public static function verificarSelect($valor, $valormenu)
+    public static function verificarValorCampo($valor, $valormenu)
     {
         if ($valor === $valormenu) {
             echo 'value=' . $valor;

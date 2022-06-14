@@ -15,7 +15,7 @@ class Input
      */
     public static function get($dato)
     {
-        if (isset($_POST[$dato])) {
+        if (isset($_SESSION[$dato])) {
             $campo = Input::filtrarDato($dato);
         } else {
             $campo = "";
@@ -40,8 +40,8 @@ class Input
      */
     public static function filtrarDato($datos)
     {
-        if (isset($_POST[$datos])) {
-            $campo = $_POST[$datos];
+        if (isset($_SESSION[$datos])) {
+            $campo = $_SESSION[$datos];
 
             // Comprueba si el texto introducido en el campo contiene caracteres de etiquietas 
             if ($campo !== strip_tags($campo) || str_contains($campo, ">")) {

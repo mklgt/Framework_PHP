@@ -19,8 +19,8 @@ class Controlador
 
     public function run()
     {
-        //header('Cache-Control: no cache');
-        //session_cache_limiter('private_no_expire');
+        header('Cache-Control: no cache');
+        session_cache_limiter('private_no_expire');
         session_start();
 
         // Aquí Mejor donde interese
@@ -239,6 +239,12 @@ class Controlador
 
     private function validar()
     {
+        $_SESSION['aula'] = $_POST['aula'];
+        $_SESSION['fecha'] = $_POST['fecha'];
+        $_SESSION['hora-desde'] = $_POST['hora-desde'];
+        $_SESSION['hora-hasta'] = $_POST['hora-hasta'];
+        $_SESSION['motivo'] = $_POST['motivo'];
+
         $aulas = $this->mostrarAulas();
         $horas = $this->mostrarHoras();
         $validador = new ValidadorForm();
@@ -285,7 +291,11 @@ class Controlador
             } else {
                 $this->mostrarFormulario($aulas, $horas, "Reservar", $validador, null);
             }
-
+            $_SESSION['aula'] = "";
+            $_SESSION['fecha'] = "";
+            $_SESSION['hora-desde'] = "";
+            $_SESSION['hora-hasta'] = "";
+            $_SESSION['motivo'] = "";
             exit();
         }
 
@@ -348,15 +358,15 @@ class Controlador
             $mail->Port       = 465;
 
             // Correo desd donde se envía el mensaje
-            $mail->setFrom('carocena@educacion.navarra.es', 'Reserva de aulas');
+            $mail->setFrom('agonzalgam1@educacion.navarra.es', 'Reserva de aulas');
 
             // Correo al que llegará el mensaje
             //$mail->addAddress($datos['usuario'] . '@educacion.navarra.es', 'Usuario');             
-            $mail->addAddress('carocena@educacion.navarra.es', 'Usuario');
+            $mail->addAddress('agonzalgam1@educacion.navarra.es', 'Usuario');
 
             // Correo donde llega una copia del mensaje
             //$mail->addCC('jefeestudios@mariaanasanz.es'); Copia a Jefatura de estudios
-            $mail->addCC('carocena@educacion.navarra.es');
+            $mail->addCC('agonzalgam1@educacion.navarra.es');
 
 
             //Contenido del mensaje
