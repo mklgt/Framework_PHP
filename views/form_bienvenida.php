@@ -29,7 +29,14 @@ if (Input::siEnviado()) {
             </label>
             <br>
             <label class="w-100 mt-3">Aula
-                <input list="aula" name='aula' class="w-100 rounded border-0 p-1 mt-1" autocomplete="off">
+                <input list="aula" name='aula' class="w-100 rounded border-0 p-1 mt-1" autocomplete="off"
+                <?php
+                    if (isset($_GET['aula_seleccionada'])) {
+                        $aula_seleccionada = $_GET['aula_seleccionada'];
+                        echo " value = $aula_seleccionada ";
+                    }
+                ?>
+                >
                 <datalist id="aula">
                     <?php
                     echo 'Hola';
@@ -44,49 +51,63 @@ if (Input::siEnviado()) {
             <div class="bg-principal mt-2 p-3 rounded">
                 <label for="fecha">
                     Fecha:
-                    <input class="rounded border-0 p-1 mt-1" type="date" id="fecha" name="fecha" <?php
-                                                                                                    if (isset($_GET['fecha_seleccionada'])) {
-                                                                                                        $fecha_seleccionada = $_GET['fecha_seleccionada'];
-                                                                                                        echo "value = $fecha_seleccionada";
-                                                                                                    }
-                                                                                                    $diaActual = "20" . date('y-m-d');
-                                                                                                    echo " min=$diaActual value=$diaActual>";
+                    <input class="rounded border-0 p-1 mt-1" type="date" id="fecha" name="fecha"
+                    <?php
+                    if (isset($_GET['fecha_seleccionada'])) {
+                        $fecha_seleccionada = $_GET['fecha_seleccionada'];
+                        echo "value = $fecha_seleccionada";
+                    }
+                    $diaActual = "20" . date('y-m-d');
+                    echo " min=$diaActual value=$diaActual>";
+                    
+                    ?>
+                </label>
+                <br />
+                <div class="mt-3">
+                <label>
+                        Desde
+                        <select class="mx-2 rounded border-0 p-1" name='hora-desde'>
+                    <?php
+                    $horaActual = date('H:i');
 
-                                                                                                    ?> </label>
-                    <br />
-                    <div class="mt-3">
-                        <label>
-                            Desde
-                            <select class="mx-2 rounded border-0 p-1" name='hora-desde'>
-                                <?php
-                                foreach ($horas as $hora) {
-                                    echo "<option id='hora-desde' value=$hora name='hora-desde' ";
-
-                                    if (isset($_GET['hora_seleccionada']) && $_GET['hora_seleccionada'] == $hora) {
-                                        $hora_seleccionada = $_GET['hora_seleccionada'];
-                                        echo "selected >";
-                                    } else {
-                                        echo Utilidades::verificarSelect(Input::get('hora-desde'), $hora) . " >";
-                                    }
-                                    echo "$hora </option>";
-                                }
-                                ?>
-                            </select><br />
-                        </label>
-                        <label>
-                            Hasta
-                            <select class="mx-2 rounded border-0 p-1" name='hora-hasta'>
-                                <?php
-                                foreach ($horas as $hora) {
-                                    echo "<option id='hora-hasta' value=$hora name='hora-hasta' ";
-                                    echo Utilidades::verificarSelect(Input::get('hora-hasta'), $hora) . " >";
-                                    echo "$hora </option>";
-                                }
-                                ?>
-                            </select><br />
-                        </label>
-                    </div>
-
+                    foreach ($horas as $hora) {
+                        echo "<option id='hora-desde' value=$hora name='hora-desde' ";
+                        if ($hora < $horaActual) {
+                            echo "disabled ";
+                        }
+                        if (isset($_GET['hora_seleccionada']) && $_GET['hora_seleccionada'] == $hora) {
+                            $hora_seleccionada = $_GET['hora_seleccionada'];
+                            echo "selected >";
+                        } else {
+                            echo Utilidades::verificarSelect(Input::get('hora-desde'), $hora) . " >";
+                        }
+                        echo "$hora </option>";
+                    }
+                    ?>
+                </select><br />
+                    </label>
+                    <label>
+                        Hasta
+                        <select class="mx-2 rounded border-0 p-1" name='hora-hasta'>
+                        <?php
+                        foreach ($horas as $hora) {
+                            echo "<option id='hora-hasta' value=$hora name='hora-hasta' ";
+                            if ($hora < $horaActual) {
+                                echo "disabled ";
+                            }
+                            if (isset($_GET['hora_seleccionada']) && $_GET['hora_seleccionada'] == $hora) {
+                                $hora_seleccionada = $_GET['hora_seleccionada'];
+                                echo "selected >";
+                            } else {
+                                echo Utilidades::verificarSelect(Input::get('hora-hasta'), $hora) . " >";  
+                            }                    
+                            echo "$hora </option>";
+                        }
+                        ?>
+                    </select><br />
+                    </label>
+                </div>
+                
             </div>
             <br>
             <label class="w-100">
