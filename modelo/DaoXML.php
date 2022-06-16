@@ -6,7 +6,9 @@ class DaoXML
     private $db;
     private   $tables = array(
         "tramo" => array('id', 'submarco', 'dia', 'indice', 'horaEntrada', 'horaSalida', 'Tipo', 'clavX'),
-        "aula" => array('id', 'nombre', 'abreviatura', 'descripcion', 'dedicada', 'plantilla')
+        "aula" => array('id', 'nombre', 'abreviatura', 'descripcion', 'dedicada', 'plantilla'),
+        "ocupadas" => array('id', 'nombre', 'dia', 'indice')
+
     );
 
     public function __construct()
@@ -54,21 +56,28 @@ class DaoXML
     /**
      * Función que elimina las tablas para poder definirlas de nuevo
      */
-    public function dropTables()
+    public function dropTables($opcion)
     {
         $this->db->conectar();
-        $consulta = "DROP TABLE IF EXISTS tramo, aula";
+        if ($opcion = "datosForm") {
+            $consulta = "DROP TABLE IF EXISTS tramo, aula";
+        } else {
+            $consulta = "DROP TABLE IF EXISTS ocupadas";
+        }
         $this->db->ejecutarSql($consulta);
         $this->db->desconectar();
-        //$this->conexion->query("DROP TABLE IF EXISTS tramo, aula");
     }
 
 
-    public function insertarXML()
+    public function insertarXML($opcion)
     {
         $archivoImportado = $_FILES['importar-archivo'];
         move_uploaded_file($archivoImportado['tmp_name'], './bbdd/bbdd.xml');
-        $this->insertarDatosArchivoXML();
+        if ($opcion == "actualizar") {
+            $this->insertarDatosArchivoXML();
+        } else {
+            $this->insertarDatosArchivoXMLOcupadas();
+        }        
     }
 
     /**
@@ -86,6 +95,9 @@ class DaoXML
                     break;
                 case 'aula':
                     $sql = "INSERT INTO aula (nombre, abreviatura, descripcion, dedicada, plantilla) VALUES (?, ?, ?, ?, ?)";
+                    break;
+                case 'ocupadas':
+                    $sql = "INSERT INTO ocupadas (nombre, dia, indice) VALUES (?, ?, ?)";
                     break;
                 default:
                     break;
@@ -155,46 +167,53 @@ class DaoXML
             exit('Error abriendo bbdd.xml.');
         }
     }
-    public function buscaAulasOcupadasArchivoXML()
+    
+    public function insertarDatosArchivoXMLOcupadas()
     {
-        if (file_exists('./bbdd/bbdd.xml')) {
-            $xml = simplexml_load_file('./bbdd/bbdd.xml');
+        if (file_exists('bbdd/bbdd.xml')) {
+            $xml = simplexml_load_file('bbdd/bbdd.xml');
             $xmla = get_object_vars($xml);
+        
             foreach ($xmla as $coleccion) {
                 $valores = (array)$coleccion;
-                foreach ($valores as $valor) {
+        
+                foreach ($valores as $nombre => $valor) {
                     $valor = (array)$valor;
-                    if (is_array($valor)) {
+                    if (is_array($valor) && $nombre == "sesion") {
                         foreach ($valor as $nombreTabla => $valoresTabla) {
-                            // Identificar tabla de "aulas"
-                            if (array_key_exists("nombre", (array)$valoresTabla)) {
-                                if (array_key_exists("dedicada", (array)$valoresTabla)) {
-                                    $nombreTabla = "aula";
-                                    $valoresTabla = (array)$valoresTabla;
-                                    $valoresInsert = [];
-                                    foreach ($valoresTabla as $dato => $da) {
-                                        $valoresInsert[] = $da;
-                                    }
-                                    $this->insertarInformacion($valoresInsert, $nombreTabla);
+                            $valoresInsert = [];
+                            $valoresTabla = (array)$valoresTabla;
+                            foreach ($valoresTabla as $nombreValorTabla => $valorTabla) {
+                                if ($nombreValorTabla == "listaDeAulas") {
+                                    $valorTabla = (array)$valorTabla;
+                                    $nombreOcupado = $valorTabla['aula'];
+                                    $valoresInsert[] = $nombreOcupado;
                                 }
-                            }
-                            if ($nombreTabla == "tramo") {
-                                $valoresTabla = (array)$valoresTabla;
-                                foreach ($valoresTabla as $dato) {
-                                    $dato = (array)$dato;
-                                    $valoresInsert = [];
-                                    foreach ($dato as $dat => $da) {
-                                        $valoresInsert[] = $da;
+                                if ($nombreValorTabla == "plantilla") {
+                                    foreach ($valorTabla as $datos) {
+                                        foreach ($datos->attributes() as $dato => $value) {
+                                            switch ($dato) {
+                                                case 'dia':
+                                                    $diaOcupado = $value;
+                                                    $valoresInsert[] = $diaOcupado;
+                                                    break;
+                                                case 'indice':
+                                                    $indiceOcupado = $value;
+                                                    $valoresInsert[] = $indiceOcupado;
+                                                    break;
+                                                default:
+                                                    break;
+                                            }
+                                        }
+                                        $this->insertarInformacion($valoresInsert, "ocupadas");
+                                        $valoresInsert = [];
                                     }
-                                    $this->insertarInformacion($valoresInsert, $nombreTabla);
-                                }
+                                }  
                             }
                         }
                     }
                 }
             }
-        } else {
-            exit('Error abriendo bbdd.xml.');
         }
     }
 }

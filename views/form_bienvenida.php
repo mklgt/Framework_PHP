@@ -31,8 +31,9 @@ if (Input::siEnviado()) {
             <label class="w-100 mt-3">Aula
                 <input list="aula" name='aula' class="w-100 rounded border-0 p-1 mt-1" autocomplete="off"
                 <?php
-                    echo Utilidades::verificarValorCampo(Input::get('aula'), $_SESSION['aula']);
-
+                    if (isset($_SESSION['aula'])) {
+                        echo Utilidades::verificarValorCampo(Input::get('aula'), $_SESSION['aula']);
+                    }
                     if (isset($_GET['aula_seleccionada'])) {
                         $aula_seleccionada = $_GET['aula_seleccionada'];
                         echo " value = $aula_seleccionada ";
@@ -53,7 +54,9 @@ if (Input::siEnviado()) {
                     Fecha:
                     <input class="rounded border-0 p-1 mt-1" type="date" id="fecha" name="fecha"
                     <?php
-                        echo Utilidades::verificarValorCampo(Input::get('fecha'), $_SESSION['fecha']);
+                        if (isset($_SESSION['fecha'])) {
+                            echo Utilidades::verificarValorCampo(Input::get('fecha'), $_SESSION['fecha']);
+                        }
                         if (isset($_GET['fecha_seleccionada'])) {
                             $fecha_seleccionada = $_GET['fecha_seleccionada'];
                             echo "value = $fecha_seleccionada";
@@ -80,7 +83,7 @@ if (Input::siEnviado()) {
                             $hora_seleccionada = $_GET['hora_seleccionada'];
                             echo "selected ";
                         } else {
-                            if ($hora == $_SESSION['hora-desde']) {
+                            if (isset($_SESSION['hora-desde']) && $hora == $_SESSION['hora-desde']) {
                                 echo "selected ";
                             }
                         }
@@ -103,7 +106,7 @@ if (Input::siEnviado()) {
                                 $hora_seleccionada = $_GET['hora_seleccionada'];
                                 echo "selected ";
                             } else {
-                                if ($hora == $_SESSION['hora-hasta']) {
+                                if (isset($_SESSION['hora-hasta']) && $hora == $_SESSION['hora-hasta']) {
                                     echo "selected ";
                                 } 
                             }                    

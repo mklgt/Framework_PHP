@@ -29,9 +29,19 @@ class Controlador
         
         // Aulas Ocupadas extraidas del XML
         if (isset($_POST['pagina']) && ($_POST['pagina']) == 'Ocupadas') {
+            $this->mostrarbbddOcupadas(null);
+            exit();
+        }
+        if (isset($_POST['bbdd']) && ($_POST['bbdd']) == 'Insertar aulas ocupadas') {
+            $resultado = "";
+
             $this->dao = new DaoXML();
-            $this->dao->buscaAulasOcupadasArchivoXML();
-            //FALTA
+            $this->dao->dropTables("aulasOcupadas");
+            $this->dao->createTables();
+
+            $this->dao->insertarXML('ocupadas');
+            $resultado = "Archivo subido";
+            $this->mostrarbbddOcupadas($resultado);
             exit();
         }
 
@@ -44,12 +54,10 @@ class Controlador
             $resultado = "";
 
             $this->dao = new DaoXML();
-            $this->dao->dropTables();
+            $this->dao->dropTables("datosForm");
             $this->dao->createTables();
 
-            // Datos del archivo XML ¿??¿
-            $this->dao->insertarXML();
-            $this->dao->insertarDatosArchivoXML();
+            $this->dao->insertarXML('actualizar');
             $resultado = "Archivo subido";
             $this->mostrarbbdd($resultado);
             exit();
@@ -168,6 +176,12 @@ class Controlador
     private function mostrarbbdd($resultado)
     {
         include 'views/form_bbdd.php';
+    }
+
+    //Metodo que muestra la página pra insertar XML ocupadas
+    private function mostrarbbddOcupadas($resultado)
+    {
+        include 'views/form_bbdd_ocupadas.php';
     }
 
     private function comprobarDatosSesion($usuario, $contraseña)
@@ -336,7 +350,7 @@ class Controlador
         return $consulta;
     }
 
-    /* private function insertarXML()
+    /* private function insertarNuevoXML()
     {
         $this->dao = new DaoReserva();
         $archivoImportado = $_FILES['importar-archivo'];
