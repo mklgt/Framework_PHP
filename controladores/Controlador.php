@@ -89,12 +89,14 @@ class Controlador
 
             if (isset($_POST['fecha_consulta']) && isset($_POST['aula_consulta'])) {
                 $datosTotales = $this->consultarFecha($_POST['fecha_consulta'], $_POST['aula_consulta']);
+                $aulasOcupadas = $this->consultarOcupadasPorFecha($_POST['fecha_consulta'], $_POST['aula_consulta']);
             } else {
                 $datosTotales = '';
+                $aulasOcupadas = '';
             }
             $aulas = $this->mostrarAulas();
             $horas = $this->mostrarHoras();
-            $this->mostrarConsulta($aulas, $horas, $datosTotales);
+            $this->mostrarConsulta($aulas, $horas, $datosTotales, $aulasOcupadas);
             exit();
         } else {
             //session_start();
@@ -153,7 +155,7 @@ class Controlador
     }
 
     //Metodo que muestra la página de consultas
-    private function mostrarConsulta($aulas, $horas, $datosTotales)
+    private function mostrarConsulta($aulas, $horas, $datosTotales, $aulasOcupadas)
     {
         //se muestra la vista del formulario (la plantilla form_consultas.php)
         include 'views/form_consulta.php';
@@ -346,6 +348,14 @@ class Controlador
     {
         $this->dao = new DaoReserva();
         $consulta = $this->dao->consultarFechaAula($fecha, $aula);
+
+        return $consulta;
+    }
+
+    private function consultarOcupadasPorFecha($fecha, $aula)
+    {
+        $this->dao = new DaoReserva();
+        $consulta = $this->dao->consultarAulasOcupadas($fecha, $aula);
 
         return $consulta;
     }

@@ -70,15 +70,13 @@ if (Input::siEnviado()) {
                 <div class="mt-3">
                 <label>
                         Desde
-                        <select class="mx-2 rounded border-0 p-1" name='hora-desde'>
+                        <select id="hora-inicial" class="mx-2 rounded border-0 p-1" name='hora-desde'>
                     <?php
                     $horaActual = date('H:i');
+                    $diaActual = date("Y-m-d");
 
                     foreach ($horas as $hora) {
                         echo "<option id='hora-desde' value=$hora name='hora-desde' ";
-                        if ($hora < $horaActual) {
-                            echo "disabled ";
-                        }
                         if (isset($_GET['hora_seleccionada']) && $_GET['hora_seleccionada'] == $hora) {
                             $hora_seleccionada = $_GET['hora_seleccionada'];
                             echo "selected ";
@@ -95,13 +93,10 @@ if (Input::siEnviado()) {
                     </label>
                     <label>
                         Hasta
-                        <select class="mx-2 rounded border-0 p-1" name='hora-hasta'>
+                        <select id="hora-final" class="mx-2 rounded border-0 p-1" name='hora-hasta'>
                         <?php
                         foreach ($horas as $hora) {
                             echo "<option id='hora-hasta' value=$hora name='hora-hasta' ";
-                            if ($hora < $horaActual) {
-                                echo "disabled ";
-                            }
                             if (isset($_GET['hora_seleccionada']) && $_GET['hora_seleccionada'] == $hora) {
                                 $hora_seleccionada = $_GET['hora_seleccionada'];
                                 echo "selected ";

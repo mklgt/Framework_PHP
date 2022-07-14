@@ -160,11 +160,91 @@ class DaoReserva
             );
             $horasOcupadas = [];
         }
-        
         return $datosTotales;
         
     }
-    
+
+    public function consultarAulasOcupadas($fecha, $aula)
+    {
+        $this->db->conectar();
+
+        $nombreDia = date('l', strtotime($fecha));
+        $indiceDias = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+        $dia = array_search($nombreDia, $indiceDias);
+
+        $consulta = $this->consultarHoras();
+        $horasTotales = [];
+        foreach ($consulta as $horas => $hora) {
+            foreach ($hora as $valor) {
+                $valor = substr($valor, 0, -3);
+                if (!in_array($valor, $horasTotales) || $valor == '14:50') {
+                    $horasTotales[] = $valor; 
+                }                
+            }
+        }
+
+        $indiceDeHoras = [];
+
+        $sql = "SELECT indice FROM ocupadas WHERE dia = $dia AND nombre = '$aula'";
+        $resultado = ($this->db->ejecutarSql($sql))->fetchAll();
+        foreach ($resultado as $datos) {
+            foreach($datos as $dato) {
+                if (!in_array($dato, $indiceDeHoras)) {
+                    $indiceDeHoras[] = $dato;
+                }
+            }
+        }
+        
+        $horasOcupadas = [];
+        foreach ($indiceDeHoras as $indiceDeHora) {
+            if (isset($horasTotales[$indiceDeHora])) {
+                $horasOcupadas[] = $horasTotales[$indiceDeHora];
+            }
+        }
+
+        return $horasOcupadas;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    public function cargarAulasOcupadas($reserva)
+    {
+        $this->db->conectar();
+
+        try {
+            $sql = "CALL `aulasReservadas`(?, ?, ?, ?); ";
+            $args = array($reserva->getAula(), $reserva->getfecha(), $reserva->getHoraDesde(), $reserva->getHoraHasta());
+            $result = $this->db->ejecutarSqlActualizacion($sql, $args);
+
+            if ($result->fetchAll(PDO::FETCH_ASSOC)[0]['COUNT(*)'] == 0) {
+                return false;
+            } else {
+                return true;
+            }
+        } catch (Exception $ex) {
+            echo "Error al reservar -> $ex->getMessage()";
+        }
+        $this->db->desconectar();
+    }
     
 /**
      * Recibe la reserva y  hace una conulta de tipo INSERT
