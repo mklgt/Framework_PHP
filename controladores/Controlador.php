@@ -73,10 +73,10 @@ class Controlador
             exit();
         }
 
-        if ((isset($_POST['pagina']) && ($_POST['pagina']) == 'todasReservas') || (isset($_POST['eliminar']) && $_POST['eliminar'] == 'Eliminar')) {
-            if (isset($_POST['eliminar']) && $_POST['eliminar'] == 'Eliminar') {
+        if ((isset($_POST['pagina']) && ($_POST['pagina']) == 'todasReservas') || (isset($_POST['eliminarJE']) && $_POST['eliminarJE'] == 'Eliminar')) {
+            if (isset($_POST['eliminarJE']) && $_POST['eliminarJE'] == 'Eliminar') {
                 $this->eliminarReserva($_POST['idReserva']);
-                $_POST['eliminar'] = "";
+                $_POST['eliminarJE'] = "";
             }
             $reservasUsuario = $this->mostrarReservasRealizadas("*");
             $this->mostrarTodasReservas($reservasUsuario);

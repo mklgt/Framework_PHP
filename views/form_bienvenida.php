@@ -54,7 +54,7 @@ if (Input::siEnviado()) {
                     Fecha:
                     <input class="rounded border-0 p-1 mt-1" type="date" id="fecha" name="fecha"
                     <?php
-                        if (isset($_SESSION['fecha'])) {
+                        if (isset($_SESSION['fecha']) && !empty($_SESSION['fecha'])) {
                             echo Utilidades::verificarValorCampo(Input::get('fecha'), $_SESSION['fecha']);
                         }
                         if (isset($_GET['fecha_seleccionada'])) {

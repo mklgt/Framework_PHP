@@ -41,60 +41,105 @@ let confirmarCambios = () => {
     id.value = reservaEditar;
 }
 
+// --------------- Paginación reservas ---------------
+const paginacionTabla = document.getElementById('paginacion');
+const numRegistros = document.querySelector('#registrosTotalesRealizados');
+if (numRegistros && paginacionTabla) {
+  let numeroTotalesRegistros = numRegistros.textContent;
+  const pagination = document.querySelector('.pagination');
+  let cantidadMaxima = 10;
 
 
+  if (numeroTotalesRegistros > cantidadMaxima) {
+    paginacionTabla.classList.remove('d-none')
+    let totalPaginas = Math.ceil(numeroTotalesRegistros / cantidadMaxima);
+    for (let p = 1; p <= totalPaginas; p++) {
+      pagination.innerHTML += `<li class="page-item"><a class="page-link" href="#">${p}</a></li>`;
+    }
+  }
+
+  pagination.addEventListener('click', (e) => {
+    let pagina = e.target.textContent;
+    let registroInicio = (cantidadMaxima * pagina) - cantidadMaxima + 1;
+    let registroFinal = (cantidadMaxima * pagina);
+    for (let k = registroInicio; k <= registroFinal; k++) {
+      let idRegistro = `registroNum${k}`;
+      let registro = document.getElementById(idRegistro)
+      if (registro != null) {
+        registro.classList.remove('d-none')
+      }
+    }
+
+    for (let p = registroInicio - 1; p >= 1; p--) {
+      let idRegistro = `registroNum${p}`;
+      let registro = document.getElementById(idRegistro)
+      registro.classList.add('d-none')  
+    }
+
+    let final = registroFinal + 1;
+    for (let l = final; l <= numeroTotalesRegistros; l++) {
+      let idRegistro = `registroNum${l}`;
+      let registro = document.getElementById(idRegistro)
+      registro.classList.add('d-none')  
+    }
+    numRegistros.remove()
+  });
+  numRegistros.remove()
+}
 // --------------- Deshabilitar horas reserva ---------------
 let horaDesde = document.getElementById('hora-inicial');
 let horaHasta = document.getElementById('hora-final');
 
-horaDesde.addEventListener('click', () => {
-  var today = new Date();
-  var dd = String(today.getDate()).padStart(2, '0');
-  var mm = String(today.getMonth() + 1).padStart(2, '0');
-  var yyyy = today.getFullYear();
+if (horaDesde && horaHasta) {
+  horaDesde.addEventListener('click', () => {
+    var today = new Date();
+    var dd = String(today.getDate()).padStart(2, '0');
+    var mm = String(today.getMonth() + 1).padStart(2, '0');
+    var yyyy = today.getFullYear();
 
-  today = yyyy + "-" + mm + "-" + dd;
-  let fechaReserva = document.getElementById('fecha').value;
-  let listaHorasDesde = horaDesde.childNodes;
-  let horaActual = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-  if (fechaReserva == today) {
-    listaHorasDesde.forEach((hora) => {
-      if (hora.value < horaActual) {
-        hora.setAttribute('disabled', 'disabled');
-      }
-    })
-  } else {
-    listaHorasDesde.forEach((hora) => {
-      if (hora.value != undefined) {
-        hora.removeAttribute('disabled', 'disabled');
-      }
-      
-    })
-  }
-})
+    today = yyyy + "-" + mm + "-" + dd;
+    let fechaReserva = document.getElementById('fecha').value;
+    let listaHorasDesde = horaDesde.childNodes;
+    let horaActual = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    if (fechaReserva == today) {
+      listaHorasDesde.forEach((hora) => {
+        if (hora.value < horaActual) {
+          hora.setAttribute('disabled', 'disabled');
+        }
+      })
+    } else {
+      listaHorasDesde.forEach((hora) => {
+        if (hora.value != undefined) {
+          hora.removeAttribute('disabled', 'disabled');
+        }
+        
+      })
+    }
+  })
 
-horaHasta.addEventListener('click', () => {
-  var today = new Date();
-  var dd = String(today.getDate()).padStart(2, '0');
-  var mm = String(today.getMonth() + 1).padStart(2, '0');
-  var yyyy = today.getFullYear();
+  horaHasta.addEventListener('click', () => {
+    var today = new Date();
+    var dd = String(today.getDate()).padStart(2, '0');
+    var mm = String(today.getMonth() + 1).padStart(2, '0');
+    var yyyy = today.getFullYear();
 
-  today = yyyy + "-" + mm + "-" + dd;
-  let fechaReserva = document.getElementById('fecha').value;
-  let listaHorasHasta = horaHasta.childNodes;
-  let horaActual = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-  if (fechaReserva == today) {
-    listaHorasHasta.forEach((hora) => {
-      if (hora.value < horaActual) {
-        hora.setAttribute('disabled', 'disabled');
-      }
-    })
-  } else {
-    listaHorasHasta.forEach((hora) => {
-      if (hora.value != undefined) {
-        hora.removeAttribute('disabled', 'disabled');
-      }
-      
-    })
-  }
-})
+    today = yyyy + "-" + mm + "-" + dd;
+    let fechaReserva = document.getElementById('fecha').value;
+    let listaHorasHasta = horaHasta.childNodes;
+    let horaActual = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    if (fechaReserva == today) {
+      listaHorasHasta.forEach((hora) => {
+        if (hora.value < horaActual) {
+          hora.setAttribute('disabled', 'disabled');
+        }
+      })
+    } else {
+      listaHorasHasta.forEach((hora) => {
+        if (hora.value != undefined) {
+          hora.removeAttribute('disabled', 'disabled');
+        }
+        
+      })
+    }
+  })
+}
