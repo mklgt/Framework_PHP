@@ -67,7 +67,7 @@ class DaoReserva
 
 
      /**
-     * Recibe la reserva y simplemente hace una conulta de tipo INSERT
+     * Recibe la reserva y simplemente hace una consulta revisando si existe la reserva
      * @param  Reserva $reserva
      * @return boolean true o false dependiendo del resultado de la consulta
      */
@@ -86,6 +86,54 @@ class DaoReserva
             } else {
                 return true;
             }
+        } catch (Exception $ex) {
+            echo "Error al reservar -> $ex->getMessage()";
+        }
+        $this->db->desconectar();
+    }
+
+     /**
+     * Recibe la reserva y simplemente hace una consulta revisando si existe el aula ocupada
+     * @param  Reserva $reserva
+     * @return boolean true o false dependiendo del resultado de la consulta
+     */
+    public function existeOcupada($reserva)
+    {
+        $this->db->conectar();
+        //CONSULTAR LA TABLA OCUPADAS: if() then SI está ocupada return true else() ver aulasReservas (lo que hay de código)
+
+        try {
+            $sql = "CALL `aulasOcupadas`(?, ?, ?); ";
+            $dia = date('w', strtotime($reserva->getfecha())) - 1;
+            $ocupada = false;
+            $consulta = $this->consultarHoras();
+            $horasTotales = [];
+            foreach ($consulta as $horas => $hora) {
+                foreach ($hora as $valor) {
+                    $valor = substr($valor, 0, -3);
+                    if (!in_array($valor, $horasTotales)) {
+                        if ($valor == '14:50') {
+                            $horasTotales[] = '14:05';
+                        }
+                        $horasTotales[] = $valor; 
+                    }                
+                }
+            }
+            $indiceHoraDesde = array_search($reserva->getHoraDesde(), $horasTotales);
+            $indiceHoraHasta = array_search($reserva->getHoraHasta(), $horasTotales);
+
+            for ($indiceHora = $indiceHoraDesde; $indiceHora < $indiceHoraHasta; $indiceHora++) { 
+                if (!$ocupada) {
+                    $args = array($reserva->getAula(), $dia, $indiceHora);
+                    $result = $this->db->ejecutarSqlActualizacion($sql, $args);
+
+                    if ($result->fetchAll(PDO::FETCH_ASSOC)[0]['COUNT(*)'] > 0) {
+                        $ocupada = true;
+                    }
+                    $result->closeCursor();
+                }
+            }
+            return $ocupada;
         } catch (Exception $ex) {
             echo "Error al reservar -> $ex->getMessage()";
         }
@@ -204,28 +252,7 @@ class DaoReserva
 
         return $horasOcupadas;
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    
     public function cargarAulasOcupadas($reserva)
     {
         $this->db->conectar();
@@ -246,16 +273,4 @@ class DaoReserva
         $this->db->desconectar();
     }
     
-/**
-     * Recibe la reserva y  hace una conulta de tipo INSERT
-     * @param  Reserva $reserva
-     * @return void Esta función no devuelve nada pero si hay algun tipo de error devuelve el
-     * mensaje del catch
-     */
-   /*  Movido a DaoXML public function insertarDatosArchivoXML()
-    {
-        $this->db->conectar();
-        $this->db->desconectar();
-    }
-     */
 }

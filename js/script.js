@@ -54,7 +54,7 @@ if (numRegistros && paginacionTabla) {
     paginacionTabla.classList.remove('d-none')
     let totalPaginas = Math.ceil(numeroTotalesRegistros / cantidadMaxima);
     for (let p = 1; p <= totalPaginas; p++) {
-      pagination.innerHTML += `<li class="page-item"><a class="page-link" href="#">${p}</a></li>`;
+      pagination.innerHTML += `<li class="page-item"><a class="page-link bg-grisClaro text-white" href="#">${p}</a></li>`;
     }
   }
 

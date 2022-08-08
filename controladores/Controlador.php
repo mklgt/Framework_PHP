@@ -337,10 +337,17 @@ class Controlador
         $this->dao = new DaoReserva();
         $reserva = $this->crearReserva($_POST);
         $existeReserva = $this->dao->existeReserva($reserva);
-        if (!$existeReserva) {
+        $existeOcupada = $this->dao->existeOcupada($reserva);
+
+        if (!$existeReserva && !$existeOcupada) {
             $this->dao->insertarReserva($reserva);
         } else {
-            $validador->addError("Reservada", "Aula ya reservada");
+            if ($existeReserva) {
+                $validador->addError("Reservada", "Aula reservada");
+            } else if ($existeOcupada){
+                $validador->addError("Reservada", "Aula ocupada permanente");
+            }
+            
         }
     }
 
