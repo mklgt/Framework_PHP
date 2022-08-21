@@ -63,6 +63,15 @@ class Controlador
             exit();
         }
 
+        // INSERTAR USUARIOS
+        if (isset($_POST['csvUsers']) && ($_POST['csvUsers']) == 'Subir usuarios') {
+            $this->dao = new DaoXML();
+            $this->dao->dropTables("datosUser");
+            $this->dao->insertarCSV();
+            $this->mostrarbbddOcupadas(null);
+            exit();
+        }
+
         if ((isset($_POST['pagina']) && ($_POST['pagina']) == 'editar') || (isset($_POST['eliminar']) && $_POST['eliminar'] == 'Eliminar')) {
             if (isset($_POST['eliminar']) && $_POST['eliminar'] == 'Eliminar') {
                 $this->eliminarReserva($_POST['idReserva']);
@@ -366,14 +375,6 @@ class Controlador
 
         return $consulta;
     }
-
-    /* private function insertarNuevoXML()
-    {
-        $this->dao = new DaoReserva();
-        $archivoImportado = $_FILES['importar-archivo'];
-        move_uploaded_file($archivoImportado['tmp_name'], './bbdd/bbdd.xml');
-        $this->dao->insertarXML();
-    } */
 
     private function enviarCorreo($datos)
     {

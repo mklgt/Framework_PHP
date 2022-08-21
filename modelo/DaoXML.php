@@ -59,7 +59,7 @@ class DaoXML
     public function dropTables($opcion)
     {
         $this->db->conectar();
-        if ($opcion = "datosForm") {
+        if ($opcion == "datosForm") {
             $consulta = "DROP TABLE IF EXISTS tramo, aula";
         } else {
             $consulta = "DROP TABLE IF EXISTS ocupadas";
@@ -78,6 +78,26 @@ class DaoXML
         } else {
             $this->insertarDatosArchivoXMLOcupadas();
         }        
+    }
+
+    public function insertarCSV()
+    {
+        $archivoImportado = $_FILES['archivoCSV'];
+        move_uploaded_file($archivoImportado['tmp_name'], './usuarios/usuarios.csv');
+        $csv = array_map('str_getcsv', file('./usuarios/usuarios.csv'));
+        $this->insertarDatosCSV($csv);
+    }
+
+    public function insertarDatosCSV($csv) {
+        $this->db->conectar();
+        $this->db->ejecutarSql("DELETE FROM sesiones2");
+        $sql = "INSERT INTO sesiones2 (usuario, contraseña) VALUES (?, ?)";
+        foreach ($csv as $key) {
+            $sql = "INSERT INTO sesiones2 (usuario, contraseña) VALUES (?, ?)";
+            $args = [$key[0], $key[1]];
+            $this->db->ejecutarSqlActualizacion($sql, $args);
+        }
+        $this->db->desconectar();        
     }
 
     /**

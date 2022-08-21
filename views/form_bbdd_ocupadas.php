@@ -21,6 +21,17 @@ include "header.php";
         ?>
     </div>
 </form>
+<form id="formUsuarios" action="index.php" method="post" enctype="multipart/form-data">
+    <div class='bg-secundario p-3 mx-auto w-75 my-3 rounded'>
+    <p class="fw-bold">Importar fichero con los datos de inicio de sesión de los usuarios</p>
+    <label>
+        Importar fichero con datos de usuarios:
+        <br>
+        <input type="file" name="archivoCSV" id="archivoCSV" accept=".csv" />
+    </label>
+        <input type="submit" name="csvUsers" value="Subir usuarios" />
+    </div>
+</form>
 
 <?php
 include "footer.php";
