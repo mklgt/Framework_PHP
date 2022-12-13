@@ -383,9 +383,9 @@ class Controlador
             $mail->isSMTP();
             $mail->Host       = 'smtp.gmail.com';
             $mail->SMTPAuth   = true;
-            //TODO Cambiar a jefe de estuidos
-            $mail->Username   = 'carocena@educacion.navarra.es';
-            $mail->Password   = 'exqubnluyfaysxgw';
+            //TODO ocultar email y contraseña
+            $mail->Username   = '****';
+            $mail->Password   = '****';
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
             $mail->Port       = 465;
 
